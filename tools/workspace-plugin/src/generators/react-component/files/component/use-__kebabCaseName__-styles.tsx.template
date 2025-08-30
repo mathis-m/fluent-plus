@@ -1,0 +1,29 @@
+import { makeStyles, mergeClasses } from '@griffel/react';
+import type { SlotClassNames } from '@fluentui/react-utilities';
+import type { <%= pascalCaseName %>Slots, <%= pascalCaseName %>State } from './<%= kebabCaseName %>.types';
+
+
+export const <%= camelCaseName %>ClassNames: SlotClassNames<<%= pascalCaseName %>Slots> = {
+  root: 'fplus-<%= pascalCaseName %>'
+};
+
+/**
+ * Styles for the root slot
+ */
+const useStyles = makeStyles({
+  root: {
+      // TODO: Add styles for the root element
+  }
+});
+
+/**
+ * Apply styling to the <%= pascalCaseName %> slots based on the state
+ */
+export const use<%= pascalCaseName %>Styles = (state: <%= pascalCaseName %>State): <%= pascalCaseName %>State => {
+  'use no memo';
+
+  const styles = useStyles();
+  state.root.className = mergeClasses(<%= camelCaseName %>ClassNames.root, styles.root, state.root.className);
+
+  return state;
+};

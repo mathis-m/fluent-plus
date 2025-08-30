@@ -1,0 +1,21 @@
+import * as React from 'react';
+import type { ForwardRefComponent } from '@fluentui/react-utilities';
+import { use<%= pascalCaseName %> } from './use-<%= kebabCaseName %>';
+import { render<%= pascalCaseName %> } from './render-<%= kebabCaseName %>';
+import { use<%= pascalCaseName %>Styles } from './use-<%= kebabCaseName %>-styles';
+import type { <%= pascalCaseName %>Props } from './<%= kebabCaseName %>.types';
+
+
+
+/**
+ * <%= pascalCaseName %> component
+ * <%= description %>
+ */
+export const <%= pascalCaseName %>: ForwardRefComponent<<%= pascalCaseName %>Props> = React.forwardRef((props, ref) => {
+  const state = use<%= pascalCaseName %>(props, ref);
+  use<%= pascalCaseName %>Styles(state);
+
+  return render<%= pascalCaseName %>(state);
+});
+
+<%= pascalCaseName %>.displayName = '<%= pascalCaseName %>';

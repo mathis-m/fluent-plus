@@ -1,0 +1,34 @@
+{
+    "$schema": "https://json-schema.org/schema",
+    "$id": "ReactComponent",
+    "title": "",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Component name",
+            "$default": {
+                "$source": "argv",
+                "index": 0
+            },
+            "x-prompt": "What component name would you like to use?",
+            "x-priority": "important"
+        },
+        "project": {
+            "type": "string",
+            "description": "Project to create the component in",
+            "$default": {
+                "$source": "projectName"
+            },
+            "x-dropdown": "projects",
+            "x-prompt": "Choose project",
+            "x-priority": "important"
+        },
+        "description": {
+            "type": "string",
+            "description": "Component description",
+            "x-prompt": "What description would you like to use? (optional)"
+        }
+    },
+    "required": ["name", "project"]
+}

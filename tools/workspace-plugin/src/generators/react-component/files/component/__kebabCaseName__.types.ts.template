@@ -1,0 +1,19 @@
+import type { ComponentProps, ComponentState, Slot } from '@fluentui/react-utilities';
+
+/**
+ * Slots for the <%= pascalCaseName %> component
+ */
+export type <%= pascalCaseName %>Slots = {
+  root: Slot<'div'>;
+};
+
+/**
+ * Props for the <%= pascalCaseName %> component
+ */
+export type <%= pascalCaseName %>Props = ComponentProps<<%= pascalCaseName %>Slots> & {};
+
+/**
+ * State for the <%= pascalCaseName %> component
+ */
+export type <%= pascalCaseName %>State = ComponentState<<%= pascalCaseName %>Slots>;
+// & Required<Pick<<%= pascalCaseName %>Props, 'propName'>>;

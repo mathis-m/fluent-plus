@@ -1,0 +1,1 @@
+export const placeholder = "Temporary placeholder to avoid empty index.ts";

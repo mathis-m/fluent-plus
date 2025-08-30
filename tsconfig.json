@@ -1,0 +1,38 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compileOnSave": false,
+    "files": [],
+    "references": [
+        {
+            "path": "./apps/public-docsite"
+        },
+        {
+            "path": "./tools/workspace-plugin"
+        },
+        {
+            "path": "./packages/file-upload/library"
+        },
+        {
+            "path": "./packages/file-upload/stories"
+        },
+        {
+            "path": "./packages/test-x/library"
+        },
+        {
+            "path": "./packages/test-x/stories"
+        },
+        {
+            "path": "./packages/test-y/library"
+        },
+        {
+            "path": "./packages/test-y/stories"
+        }
+    ],
+    "ts-node": {
+        "compilerOptions": {
+            "module": "commonjs",
+            "moduleResolution": "node10",
+            "customConditions": null
+        }
+    }
+}

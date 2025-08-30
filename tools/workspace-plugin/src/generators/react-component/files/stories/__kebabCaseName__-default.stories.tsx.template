@@ -1,0 +1,7 @@
+import { <%= pascalCaseName %> } from "@fluent-plus/<%= projectName %>";
+
+export const Default = () => {
+    return (
+        <<%= pascalCaseName %> />
+    );
+};

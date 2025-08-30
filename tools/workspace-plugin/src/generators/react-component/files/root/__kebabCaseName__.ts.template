@@ -1,0 +1,13 @@
+export type {
+    <%= pascalCaseName %>Props,
+    <%= pascalCaseName %>State,
+    <%= pascalCaseName %>Slots,
+} from "./components/<%= kebabCaseName %>";
+
+export {
+    <%= pascalCaseName %>,
+    <%= camelCaseName %>ClassNames,
+    render<%= pascalCaseName %>,
+    use<%= pascalCaseName %>Styles,
+    use<%= pascalCaseName %>,
+} from "./components/<%= kebabCaseName %>";

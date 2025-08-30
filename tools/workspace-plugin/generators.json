@@ -1,0 +1,14 @@
+{
+    "generators": {
+        "react-lib": {
+            "factory": "./dist/generators/react-lib/react-lib",
+            "schema": "./dist/generators/react-lib/schema.json",
+            "description": "react-lib generator"
+        },
+        "react-component": {
+            "factory": "./dist/generators/react-component/react-component",
+            "schema": "./dist/generators/react-component/schema.json",
+            "description": "react-component generator"
+        }
+    }
+}

@@ -1,0 +1,14 @@
+/** @jsxRuntime automatic */
+/** @jsxImportSource @fluentui/react-jsx-runtime */
+
+import { assertSlots } from '@fluentui/react-utilities';
+import type { <%= pascalCaseName %>State, <%= pascalCaseName %>Slots } from './<%= kebabCaseName %>.types';
+
+/**
+ * This function composes the final JSX of <%= pascalCaseName %>
+ */
+export const render<%= pascalCaseName %> = (state: <%= pascalCaseName %>State) => {
+  assertSlots<<%= pascalCaseName %>Slots>(state);
+
+  return <state.root />;
+};

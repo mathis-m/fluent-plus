@@ -1,0 +1,12 @@
+{
+  "name": "@fluent-plus/public-docsite",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "name": "public-docsite",
+    "projectType": "application",
+    "implicitDependencies": [
+    ]
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,26 @@
+import { <%= pascalCaseName %> } from "@fluent-plus/<%= projectName %>";
+import { Default } from "./<%= kebabCaseName %>-default.stories";
+import { Example } from "./<%= kebabCaseName %>-example.stories";
+
+const description = `
+<%= description %>
+`;
+
+export default {
+    title: "<%= projectTitle %>/<%= title %>",
+    component: <%= pascalCaseName %>,
+    parameters: {
+        docs: {
+            description: {
+                component: description,
+            },
+        },
+    },
+};
+
+// Exporting stories for the <%= title %> component in display order
+// organize-imports-ignore
+export {
+    Default,
+    Example,
+}
