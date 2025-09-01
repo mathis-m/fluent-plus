@@ -4,7 +4,7 @@
     "files": [],
     "references": [
         {
-            "path": "./apps/public-docsite"
+            "path": "./apps/public-docsite-temp"
         },
         {
             "path": "./tools/workspace-plugin"
@@ -26,6 +26,9 @@
         },
         {
             "path": "./packages/test-y/stories"
+        },
+        {
+            "path": "./apps/public-docsite"
         }
     ],
     "ts-node": {

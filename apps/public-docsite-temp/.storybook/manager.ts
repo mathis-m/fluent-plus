@@ -31,7 +31,6 @@ addons.setConfig({
         inputBorderRadius: 4,
 
         brandTitle: "FluentPlus",
-        brandImage: "text_only.svg",
         brandTarget: "_self",
     }),
     enableShortcuts: false,

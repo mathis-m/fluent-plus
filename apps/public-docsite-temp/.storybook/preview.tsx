@@ -1,14 +1,14 @@
 import { FluentProvider, webLightTheme } from "@fluentui/react-components";
-import type { Preview } from "@storybook/react";
 import type { StoryContextForEnhancers } from "storybook/internal/csf";
+import type { Preview } from "@storybook/react";
 import { FluentDocsContainer } from "../src/fluent-docs-container";
 import { FluentDocsPage } from "../src/fluent-docs-page";
-import "./docs-root.css";
 
 const preview: Preview = {
     tags: ["autodocs"],
     decorators: [
         (Story) => {
+            debugger
             return (
                 <FluentProvider theme={webLightTheme}>
                     <Story />
@@ -37,20 +37,6 @@ const preview: Preview = {
                 transform: (source: string, storyContext: StoryContextForEnhancers) => {
                     return storyContext.parameters.fullSource;
                 },
-            },
-        },
-        exportToSandbox: {
-            provider: "stackblitz-cloud",
-            bundler: "vite",
-            requiredDependencies: {
-                // for React
-                react: "^18",
-                "react-dom": "^18",
-                // necessary for FluentProvider:
-                "@fluentui/react-components": "^9.0.0",
-            },
-            optionalDependencies: {
-                "@fluentui/react-icons": "latest",
             },
         },
     },
