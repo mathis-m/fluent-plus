@@ -1,0 +1,17 @@
+import { FileDefinitionFactory } from "./file-definiton-factory";
+
+export const srcIndexTs: FileDefinitionFactory = () => ({
+    fileName: "src/index.tsx",
+    content: `import * as React from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './app';
+
+const root = createRoot(document.getElementById('root') as HTMLElement);
+
+root.render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+);
+`,
+});

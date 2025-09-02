@@ -1,0 +1,26 @@
+import { FileDefinitionFactory } from "./file-definiton-factory";
+
+export const tsconfigJson: FileDefinitionFactory = () => ({
+    fileName: "tsconfig.json",
+    content: `{
+      "compilerOptions": {
+        "target": "ES2020",
+        "useDefineForClassFields": true,
+        "lib": ["ES2020", "DOM", "DOM.Iterable"],
+        "module": "ESNext",
+        "skipLibCheck": true,
+        "moduleResolution": "node",
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react-jsx",
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true
+      },
+      "include": ["src"],
+      "references": [{ "path": "./tsconfig.node.json" }]
+}`,
+});

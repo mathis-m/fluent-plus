@@ -7,7 +7,8 @@
         "jsx": "react-jsx",
         "module": "esnext",
         "moduleResolution": "bundler",
-        "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo"
+        "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
+        "lib": ["dom"]
     },
     "exclude": [
         "out-tsc",

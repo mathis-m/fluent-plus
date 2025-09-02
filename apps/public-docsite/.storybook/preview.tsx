@@ -3,6 +3,7 @@ import type { Preview } from "@storybook/react";
 import type { StoryContextForEnhancers } from "storybook/internal/csf";
 import { FluentDocsContainer } from "../src/fluent-docs-container";
 import { FluentDocsPage } from "../src/fluent-docs-page";
+import { exportToSandboxDecorator } from "../src/export-to-sandbox";
 import "./docs-root.css";
 
 const preview: Preview = {
@@ -15,6 +16,7 @@ const preview: Preview = {
                 </FluentProvider>
             );
         },
+        exportToSandboxDecorator
     ],
     parameters: {
         viewMode: "docs",

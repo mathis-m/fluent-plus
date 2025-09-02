@@ -4,28 +4,7 @@
     "files": [],
     "references": [
         {
-            "path": "./apps/public-docsite-temp"
-        },
-        {
             "path": "./tools/workspace-plugin"
-        },
-        {
-            "path": "./packages/file-upload/library"
-        },
-        {
-            "path": "./packages/file-upload/stories"
-        },
-        {
-            "path": "./packages/test-x/library"
-        },
-        {
-            "path": "./packages/test-x/stories"
-        },
-        {
-            "path": "./packages/test-y/library"
-        },
-        {
-            "path": "./packages/test-y/stories"
         },
         {
             "path": "./apps/public-docsite"

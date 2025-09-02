@@ -1,9 +1,0 @@
-{
-    "name": "test-x-stories",
-    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/test-x/stories/src",
-    "projectType": "library",
-    "tags": ["type:stories"],
-    "// targets": "to see all targets run: nx show project test-x-stories --web",
-    "targets": {}
-}
