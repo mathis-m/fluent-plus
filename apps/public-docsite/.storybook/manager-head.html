@@ -1,121 +1,150 @@
-<link rel="icon" type="image/svg" sizes="16x16" href="/favicon.svg">
-
+<link rel="icon" type="image/svg" sizes="16x16" href="/favicon.svg" />
 
 <style>
-  @font-face {
-    font-family: 'Segoe UI';
-    src: local('Segoe UI Light'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff2) format('woff2'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff) format('woff'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.ttf) format('truetype');
-    font-weight: 100;
-  }
+    @font-face {
+        font-family: "Segoe UI";
+        src: local("Segoe UI Light"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff2)
+                format("woff2"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff)
+                format("woff"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.ttf)
+                format("truetype");
+        font-weight: 100;
+    }
 
-  @font-face {
-    font-family: 'Segoe UI';
-    src: local('Segoe UI Semilight'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semilight/latest.woff2) format('woff2'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semilight/latest.woff) format('woff'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semilight/latest.ttf) format('truetype');
-    font-weight: 200;
-  }
+    @font-face {
+        font-family: "Segoe UI";
+        src: local("Segoe UI Semilight"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semilight/latest.woff2)
+                format("woff2"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semilight/latest.woff)
+                format("woff"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semilight/latest.ttf)
+                format("truetype");
+        font-weight: 200;
+    }
 
-  @font-face {
-    font-family: 'Segoe UI';
-    src: local('Segoe UI'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff2) format('woff2'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff) format('woff'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.ttf) format('truetype');
-    font-weight: 400;
-  }
+    @font-face {
+        font-family: "Segoe UI";
+        src: local("Segoe UI"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff2)
+                format("woff2"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff)
+                format("woff"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.ttf)
+                format("truetype");
+        font-weight: 400;
+    }
 
-  @font-face {
-    font-family: 'Segoe UI';
-    src: local('Segoe UI Semibold'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.woff2) format('woff2'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.woff) format('woff'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.ttf) format('truetype');
-    font-weight: 600;
-  }
+    @font-face {
+        font-family: "Segoe UI";
+        src: local("Segoe UI Semibold"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.woff2)
+                format("woff2"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.woff)
+                format("woff"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.ttf)
+                format("truetype");
+        font-weight: 600;
+    }
 
-  @font-face {
-    font-family: 'Segoe UI';
-    src: local('Segoe UI Bold'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff2) format('woff2'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff) format('woff'),
-      url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.ttf) format('truetype');
-    font-weight: 700;
-  }
+    @font-face {
+        font-family: "Segoe UI";
+        src: local("Segoe UI Bold"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff2)
+                format("woff2"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff) format("woff"),
+            url(https://c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.ttf)
+                format("truetype");
+        font-weight: 700;
+    }
 
-  #storybook-preview-iframe {
-    background: transparent !important;
-  }
+    #storybook-preview-iframe {
+        background: transparent !important;
+    }
 
-  #storybook-explorer-searchfield {
-    font-weight: 400 !important;
-    font-size: 14px !important;
-    letter-spacing: -0.01em !important;
-    line-height: 14px !important;
-  }
+    #storybook-explorer-searchfield {
+        font-weight: 400 !important;
+        font-size: 14px !important;
+        letter-spacing: -0.01em !important;
+        line-height: 14px !important;
+    }
 
-  .sidebar-item svg,
-  .sidebar-svg-icon {
-    color: #11100f !important;
-  }
+    .sidebar-item svg,
+    .sidebar-svg-icon {
+        color: #11100f !important;
+    }
 
-  .sidebar-item[data-selected='true'] svg,
-  .sidebar-item[data-selected='true'] .sidebar-svg-icon {
-    color: #ffffff !important;
-  }
+    .sidebar-item[data-selected="true"] svg,
+    .sidebar-item[data-selected="true"] .sidebar-svg-icon {
+        color: #ffffff !important;
+    }
 
-  /**
+    /**
     The `button[data-action='collapse-ref']` selector is used to ensure
     that the "Storybook Composition" (https://storybook.js.org/docs/sharing/storybook-composition) menu items
     align with the styling of the other sidebar menu items.
   */
-  .sidebar-subheading,
-  button[data-action='collapse-ref'] {
-    font-weight: 600 !important;
-    font-size: 16px !important;
-    letter-spacing: 0px !important;
-    line-height: 24px !important;
-    text-transform: none !important;
-    color: #11100f !important;
-  }
+    .sidebar-subheading,
+    button[data-action="collapse-ref"] {
+        font-weight: 600 !important;
+        font-size: 16px !important;
+        letter-spacing: 0px !important;
+        line-height: 24px !important;
+        text-transform: none !important;
+        color: #11100f !important;
+    }
 
-  .sidebar-subheading button,
-  button[data-action='collapse-ref'] {
-    display: flex !important;
-    align-items: center !important;
-  }
+    .sidebar-subheading button,
+    button[data-action="collapse-ref"] {
+        display: flex !important;
+        align-items: center !important;
+    }
 
-  .sidebar-item {
-    align-items: center !important;
-    font-weight: 400 !important;
-    font-size: 14px !important;
-    letter-spacing: -0.01em !important;
-    line-height: 24px !important;
-    color: #11100f !important;
-  }
+    .sidebar-item {
+        align-items: center !important;
+        font-weight: 400 !important;
+        font-size: 14px !important;
+        letter-spacing: -0.01em !important;
+        line-height: 24px !important;
+        color: #11100f !important;
+    }
 
-  .sidebar-item[data-selected='true'] {
-    font-weight: 600 !important;
-    font-size: 14px !important;
-    letter-spacing: -0.01em !important;
-    line-height: 24px !important;
-    color: #ffffff !important;
-  }
+    .sidebar-item[data-selected="true"] {
+        font-weight: 600 !important;
+        font-size: 14px !important;
+        letter-spacing: -0.01em !important;
+        line-height: 24px !important;
+        color: #ffffff !important;
+    }
 
-  .sidebar-item > span:first-child,
-  button[data-action='collapse-ref'] > span:first-child,
-  .sidebar-item > svg {
-    margin-top: 0 !important;
-  }
+    .sidebar-item > span:first-child,
+    button[data-action="collapse-ref"] > span:first-child,
+    .sidebar-item > svg {
+        margin-top: 0 !important;
+    }
 
-  /*
+    /*
   * Hides "Addons" button from mobile view nav.
   */
-  nav > button:last-child {
-    display: none;
-  }
+    nav > button:last-child {
+        display: none;
+    }
+
+    .sidebar-header > div:has(> button[title="Shortcuts"]) {
+        display: none !important;
+        border: 1px solid red;
+    }
+
+    .sidebar-header > div:has(>a[title="FluentPlus"]) {
+      margin: 0;
+      justify-content: center;
+    }
+
+    .sidebar-header > div > a[title="FluentPlus"] {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
 </style>
