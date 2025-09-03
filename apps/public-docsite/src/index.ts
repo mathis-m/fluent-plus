@@ -1,1 +1,1 @@
-export {};
+export { ConceptCard, type ConceptCardProps } from "./concept-card";

@@ -79,6 +79,7 @@
         "@fluentui/react-jsx-runtime": "^9.1.6",
         "@fluentui/react-utilities": "^9.24.0",
         "@nx/devkit": "21.4.1",
+        "motion": "^12.23.12",
         "patch-package": "^8.0.0",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
