@@ -1,6 +1,4 @@
-<div style="background-color: #252C3F; padding: 20px 40px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
-  <img src="assets/logo/banner_no_background.svg" alt="FluentPlus" width="400" />
-</div>
+ <img src="assets/logo/github-banner.svg" alt="FluentPlus" width="100%" />
 
 ## 📚 [**View Full Documentation →**](https://mathis-m.github.io/fluent-plus/)
 
