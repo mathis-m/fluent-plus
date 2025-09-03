@@ -6,7 +6,7 @@ FluentPlus is a comprehensive component library built on top of [Fluent UI v9](h
 
 ## Features
 
-- � **Fill Fluent UI gaps** - Core components that extend v9's component catalog
+- 🔧 **Fill Fluent UI gaps** - Core components that extend v9's component catalog
 - ⚙️ **Complex frameworks** - Multi-component solutions for specialized business needs
 - 🚀 **Pre-built assemblies** - High-level components for rapid application development
 - 🎨 **Design system alignment** - Full compatibility with Fluent UI v9 principles and theming
