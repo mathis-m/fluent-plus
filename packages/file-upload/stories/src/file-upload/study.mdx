@@ -1,0 +1,564 @@
+import { Meta, Markdown } from "@storybook/addon-docs/blocks";
+
+<Meta title="Components/File Upload/Research Study" />
+
+<br />
+<br />
+<br />
+# File Upload Component Research Study
+
+## Anatomy
+
+Based on comprehensive research of file upload components across major design systems and Fluent UI v9 slot patterns, the file upload functionality should be split into multiple specialized components following Fluent UI v9's compositional approach:[^1] [^2] [^3] [^4] [^5]
+
+### Component Architecture
+
+The file upload system consists of three main components that can be used independently or together:
+
+#### 1. FileUpload Component
+
+The core upload component focused on file selection and drag-and-drop functionality.
+
+<Markdown>
+{`
+| Slot Name | Element Type | Purpose | Optional | Default |
+| :-- | :-- | :-- | :-- | :-- |
+| \`root\` | \`div\` | Main container wrapping upload component | No | \`"div"\` |
+| \`label\` | \`span\`, \`label\` | Primary descriptive text (e.g., "Upload files") | Yes | \`null\`, for standalone usage, otherwise consider wrapping it in Fluent UI v9 \`Field\` |
+| \`description\` | \`span\`, \`div\` | Helper text with format/size restrictions | Yes | \`null\`, for standalone usage, otherwise consider wrapping it in Fluent UI v9 \`Field\`  |
+| \`dropzone\` | \`div\`, \`section\` | Interactive drop area for drag-and-drop | Yes | \`"div"\` |
+| \`trigger\` | \`button\` | Click-to-browse button ("Add files", "Browse") | Yes | \`"button"\` |
+| \`input\` | \`input[type="file"]\` | Hidden native file input element | Yes | \`"input"\` |
+`}
+</Markdown>
+
+
+#### 2. FileList Component
+
+A container component for displaying multiple files with minimal structure.
+<Markdown>
+{`
+| Slot Name | Element Type | Purpose | Optional | Default |
+| :-- | :-- | :-- | :-- | :-- |
+| \`root\` | \`div\`, \`ul\` | Container for file items | No | \`"div"\` |
+`}
+</Markdown>
+
+#### 3. FileItem Component
+
+Individual file representation with comprehensive slot support for customization.
+
+<Markdown>
+{`
+| Slot Name | Element Type | Purpose | Optional | Default |
+| :-- | :-- | :-- | :-- | :-- |
+| \`root\` | \`div\`, \`li\` | Individual file container | No | \`"div"\` |
+| \`beforeContent\` | \`div\`, \`span\` | Content before file info (e.g., icons, thumbnails) | Yes | \`null\` |
+| \`status\` | \`span\` | Loading/success/error status indicator | Yes | \`null\` |
+| \`content\` | \`div\` | Helper container for file information (name, size, errorMessage) | No | \`"div"\` |
+| \`name\` | \`span\` | Display name of the file (child of content) | No | \`"span"\` |
+| \`size\` | \`span\` | File size indicator (child of content) | Yes | \`null\` |
+| \`errorMessage\` | \`span\`, \`div\` | File-specific error text (child of content) | Yes | \`null\` |
+| \`progressIndicator\` | \`div\` | Upload progress indicator | Yes | \`null\`, might be based on a \`isUploading\` prop if not explicitly set |
+| \`actions\` | \`div\` | Container for action buttons | Yes | \`null\` |
+| \`removeButton\` | \`button\` | Delete/remove file action (child of actions) | Yes | \`null\`, might be based on a \`onRemove\` prop if not explicitly set |
+| \`afterContent\` | \`div\`, \`span\` | Content after file info (e.g., additional metadata) | Yes | \`null\` |
+`}
+</Markdown>
+
+### Component Hierarchy Examples
+
+#### Standalone FileUpload (Custom File List)
+```
+FileUpload
+├── label
+├── description  
+├── dropzone
+│   └── trigger
+└── input (hidden)
+
+// Custom file list can be rendered outside as needed
+└── [user-defined structure]
+```
+
+#### Complete File Upload System
+```
+FileUpload
+├── label
+├── description  
+├── dropzone
+│   └── trigger
+├── input (hidden)
+└── FileList (children of FileUpload)
+    └── FileItem[] (children of FileList)
+        ├── beforeContent
+        ├── status
+        ├── content
+        │   ├── name
+        │   ├── size
+        │   └── errorMessage
+        ├── progressIndicator
+        ├── actions
+        │   └── removeButton
+        └── afterContent
+```
+
+#### FileItem Standalone Usage
+```
+FileItem
+├── beforeContent (thumbnail)
+├── status
+├── content
+│   ├── name
+│   ├── size  
+│   └── errorMessage
+├── progressIndicator
+├── actions
+│   ├── [custom action buttons]
+│   └── removeButton
+└── afterContent (metadata)
+```
+
+
+## UX/UI Considerations (Fluent 2 Aligned)
+
+### Component Composition Philosophy
+
+Following Fluent UI v9's compositional approach, each component should be:[^6] [^7]
+
+#### Design Principles for Component Splitting
+
+1. **Single Responsibility**: Each component handles one specific aspect of file upload functionality
+2. **Composability**: Components can be used independently or together based on use case requirements
+3. **Slot-Based Customization**: Each component provides slots for maximum flexibility while maintaining design consistency
+4. **Accessibility First**: All components include built-in accessibility features that work together seamlessly
+
+### Visual Design Patterns
+
+Following Fluent 2 design principles, file upload components should emphasize:[^6] [^7]
+
+#### States & Visual Feedback[^8] [^9] [^1]
+
+- **Default**: Neutral border with clear call-to-action text
+- **Drag Active**: Highlighted border (usually blue/accent color) with visual emphasis
+- **Loading**: Progress indicators with percentage or spinner
+- **Success**: Confirmation state with checkmark or success icon
+- **Error**: Red/warning styling with descriptive error messages
+- **Disabled**: Reduced opacity and no interaction capability
+
+
+#### Accessibility Requirements[^10] [^11] [^12]
+
+- **Keyboard Navigation**: Full keyboard support using Tab, Enter, and Space keys
+- **Screen Reader Support**: Proper ARIA labels, roles, and live regions
+- **High Contrast**: Compatible with high contrast modes
+- **Focus Management**: Clear focus indicators and logical tab order
+
+
+#### Key UX Principles[^13] [^6]
+
+1. **Drag-and-Drop Primary**: Make drag-and-drop the primary interaction method with click-to-browse as secondary
+2. **Component Flexibility**: Allow developers to compose upload experiences that fit their specific use cases
+3. **Clear Instructions**: Provide explicit guidance on accepted file types and size limits
+4. **Immediate Feedback**: Show upload progress and status changes in real-time
+5. **Error Recovery**: Clear error messages with actionable guidance for resolution
+6. **File Management**: Easy removal of uploaded files with confirmation patterns
+7. **Standalone Usage**: Each component should work independently for maximum flexibility
+
+### Content Guidelines[^1] [^6]
+
+#### FileUpload Component
+- **Label**: "Upload files" or context-specific variants
+- **Description**: "Drag files here or click to browse - Max 10MB - JPG, PNG, PDF"
+- **Trigger Button**: "Add files", "Browse", or "Choose files"
+
+#### FileItem Component  
+- **File Name**: Display original filename with extension
+- **File Size**: Human-readable format (e.g., "2.5 MB", "1.2 KB")
+- **Status Messages**: "Uploading...", "Upload complete", "Upload failed"
+- **Error Messages**: Specific and actionable (e.g., "File too large. Maximum size is 10MB")
+
+#### Error Handling Strategy
+- **General Errors**: Use Fluent UI's `MessageBar` component for upload system errors
+- **File-Specific Errors**: Handle within `FileItem` component's `errorMessage` slot
+- **Validation Errors**: Display immediately upon file selection in relevant component
+
+
+## Dropzone Implementation Guidance
+
+### React-Dropzone vs Custom Implementation
+
+#### Advantages of React-Dropzone[^14] [^15] [^16]
+
+- **Mature & Maintained**: Active development with regular updates and TypeScript support
+- **Browser Compatibility**: Handles cross-browser drag-and-drop inconsistencies
+- **Rich Feature Set**: Built-in file validation, MIME type checking, and multiple file handling
+- **Accessibility**: Proper keyboard navigation and screen reader support out of the box
+- **Performance**: Optimized event handling and memory management
+- **Minimal Bundle Size**: ~2.7KB gzipped, significantly smaller than alternatives[^17]
+
+
+#### Disadvantages of React-Dropzone[^15] [^18]
+
+- **External Dependency**: Adds another package to maintain and update
+- **API Learning Curve**: Requires understanding hooks like `useDropzone`, `getRootProps`, `getInputProps`
+- **Limited Upload Management**: Only provides dropzone functionality, no built-in upload progress or queue management
+
+
+#### Custom Implementation Considerations[^19][^20]
+
+- **Full Control**: Complete customization over behavior and styling
+- **Bundle Size**: No external dependencies
+- **Maintenance Overhead**: Must handle browser inconsistencies and edge cases manually
+- **Accessibility Risk**: Easy to miss ARIA patterns and keyboard navigation requirements[^21] [^22]
+
+
+### Recommendation: Use React-Dropzone with Component Composition
+
+**For FluentPlus file upload system, react-dropzone is recommended** because:
+
+1. **Fluent UI v9 Compatibility**: React-dropzone integrates seamlessly with Fluent's slot-based architecture and component composition patterns[^4] [^5]
+2. **Component Separation**: Works perfectly with the FileUpload component while allowing FileList and FileItem to be completely independent
+3. **Enterprise Readiness**: Handles accessibility and browser compatibility requirements that enterprise applications need[^12] [^10]
+4. **Development Velocity**: Allows focus on component composition and Fluent-specific styling rather than low-level drag-and-drop mechanics
+5. **Maintenance**: Well-maintained library reduces long-term technical debt
+6. **TypeScript Support**: First-class TypeScript support aligns with FluentPlus development standards
+7. **Flexible Integration**: Can be used only in the FileUpload component, leaving other components free of external dependencies
+
+### Implementation Strategy
+
+1. **FileUpload Component**: Integrate react-dropzone for drag-and-drop functionality
+2. **FileList Component**: Pure React component with no external dependencies
+3. **FileItem Component**: Independent component that can work with any file data source
+4. **Composition**: Allow developers to mix and match components based on their needs
+
+This approach leverages react-dropzone's robust foundation while maintaining the flexibility and composability that Fluent UI v9's architecture promotes, ensuring each component can be used independently or as part of a larger system.
+
+
+## State Handling and Developer Experience
+
+### useFileUploadFeatures Hook Pattern
+
+Following the FluentUI Table component's successful `useTableFeatures` pattern, the file upload system will provide a central `useFileUploadFeatures` hook that enables feature composition through plugin hooks. This approach allows developers to compose exactly the upload experience they need while maintaining consistent state management and developer ergonomics.
+
+The hook takes an options object as the first argument to configure core behavior such as lifecycle callbacks, controlled/uncontrolled modes, and default files, followed by an array of feature hooks that extend functionality.
+
+```typescript
+const {
+  // NOTE: THIS IS A HYPOTHETICAL EXAMPLE FOR ILLUSTRATION ONLY
+  // Core state and utilities
+  files,
+  getFiles,
+  addFiles,
+  removeFile,
+  updateFile,
+  
+  // Feature-specific state and utilities from plugins
+  constraints: { validateFile, getValidationErrors },
+  orchestration: { uploadFile, getProgress, retryUpload },
+  sort: { sortedFiles, updateSort },
+  filtering: { filteredFiles, setFilter },
+  duplicates: { detectDuplicates, resolveDuplicate }
+} = useFileUploadFeatures(
+  {
+    defaultFiles: [],
+    onFilesChange: (files) => { /* controlled mode */ },
+    onUploadComplete: (file) => { /* lifecycle callback */ },
+    onError: (error) => { /* error handling */ }
+  },
+  [
+    useFileUploadConstraints({ maxSize: '10MB', acceptedTypes: ['.pdf', '.jpg'] }),
+    useFileUploadOrchestration({ concurrent: 3, retryAttempts: 2 }),
+    useFileUploadSort({ defaultSort: { field: 'name', direction: 'asc' } }),
+    useFileUploadFiltering({ searchable: true }),
+    useFileUploadDuplicates({ strategy: 'prompt' })
+  ]
+);
+```
+
+### Core Feature Hooks
+
+#### useFileUploadConstraints
+
+Manages file validation with both synchronous and asynchronous validation support. This hook provides comprehensive validation capabilities including server-side validation for enterprise scenarios.
+
+**Key Capabilities:**
+- **File Type Validation**: MIME type and extension checking with customizable rules
+- **Size Constraints**: Individual file and total upload size limits
+- **Count Limits**: Maximum number of files with configurable enforcement
+- **Async Validation**: Server-side validation support for advanced security scanning, duplicate checking, or business rule validation
+- **Custom Validators**: Plugin system for domain-specific validation rules
+- **Validation Feedback**: Real-time validation with detailed error messages and resolution guidance
+
+**Developer Experience Benefits:**
+- Declarative constraint definition reduces boilerplate code
+- Automatic validation timing (on selection, before upload, during upload)
+- Granular error handling with file-specific and global error states
+- Built-in accessibility with proper error announcements
+
+#### useFileUploadOrchestration
+
+Manages upload orchestration, progress tracking, and coordination with comprehensive status utilities. This hook provides detailed progress information suitable for polling scenarios and complex upload orchestration.
+
+**Key Capabilities:**
+- **Individual File Progress**: Per-file upload tracking with bytes transferred and completion percentage
+- **Batch Coordination**: Overall progress across multiple file uploads with aggregated statistics
+- **Status Tracking Utilities**: Comprehensive status information including upload speed, estimated time remaining, and detailed state transitions
+- **Retry Logic**: Configurable retry mechanisms with exponential backoff and failure handling
+- **Polling Support**: Status utilities designed for polling scenarios with efficient state updates and change detection
+- **Background Upload Management**: Support for uploads that continue during navigation or component unmounting
+
+**Developer Experience Benefits:**
+- Rich progress information eliminates need for custom tracking logic
+- Built-in retry mechanisms reduce error handling complexity
+- Status utilities provide all necessary data for custom progress displays
+- Polling-friendly state management optimizes performance for real-time updates
+
+#### useFileUploadSort
+
+Provides comprehensive file sorting capabilities with special handling for upload-specific scenarios. This hook focuses on sort logic and state management while allowing developers to implement custom sorting UI.
+
+**Key Capabilities:**
+- **Standard Sorting Fields**: Name, size, type, modification date with intelligent comparison logic
+- **Upload-Aware Sorting**: Special rules for files currently uploading (typically sorted to top) and recently added files in current session
+- **Session-Based Priorities**: Recently selected files can be prioritized or grouped separately from existing files
+- **Custom Sort Functions**: Support for domain-specific sorting logic and compound sorting criteria
+- **Sort State Management**: Utilities to update sorting programmatically with proper state transitions
+
+**Developer Experience Benefits:**
+- No UI assumptions allow complete control over sort interface design
+- Plug-point architecture enables easy integration with custom sorting components
+- Upload-aware logic handles complex scenarios automatically
+- Rich utilities support both simple and complex sorting requirements
+
+#### useFileUploadFiltering
+
+Manages file filtering with comprehensive search and filter capabilities. This hook provides filtering logic and state management while leaving UI implementation to developers.
+
+**Key Capabilities:**
+- **Text Search**: Full-text search across file names with fuzzy matching and highlighting support
+- **Status Filtering**: Filter by upload status (pending, uploading, completed, failed) with compound filter support
+- **Type Filtering**: Filter by file type, MIME type, or custom category with hierarchical filtering
+- **Size Range Filtering**: Filter by file size ranges with human-readable size comparisons
+- **Custom Filter Functions**: Support for domain-specific filtering logic with composable filter predicates
+- **Filter State Management**: Utilities to update filters programmatically with proper state coordination
+
+**Developer Experience Benefits:**
+- Alpha release focuses on core filtering logic without UI constraints
+- Plug-point architecture allows integration with any filter UI pattern
+- Rich filter utilities support both simple and complex filtering scenarios
+
+#### useFileUploadDuplicates
+
+Provides intelligent duplicate detection and resolution capabilities. This hook simplifies handling of duplicate files with configurable resolution strategies.
+
+**Key Capabilities:**
+- **Smart Detection**: Detects duplicates by name, size, and content hash with configurable sensitivity
+- **Custom Detection Logic**: Plugin system for domain-specific duplicate detection rules for client-side or server-side validation
+- **Resolution Strategies**: Multiple built-in strategies (replace, keep both, skip, prompt user) with custom strategy support
+- **Visual Indicators**: Provides duplicate state information for UI highlighting and user feedback
+- **Batch Operations**: Handle duplicates across multiple file selections efficiently
+- **Conflict Resolution**: Manages complex scenarios like partial duplicates or near-matches on client-side
+
+**Developer Experience Benefits:**
+- API to fit simple or complex duplicate handling needs
+- Configurable strategies accommodate different use case requirements
+- Rich duplicate information supports comprehensive UI feedback
+- Automated conflict resolution reduces user friction
+
+### Enterprise Features Outlook
+
+While not included in the initial release, several enterprise-focused features would enhance the file upload system for larger-scale applications:
+
+#### useFileUploadQueue
+Advanced upload queue management with priority handling, concurrent upload limits, and sophisticated queue manipulation (pause, resume, reorder). This would be particularly valuable for applications handling large volumes of files or requiring fine-grained upload control.
+
+#### useFileUploadPersistence
+Resumable upload capabilities with local storage integration, draft saving, and browser refresh recovery. Enterprise applications often require robust handling of interrupted uploads and user session management.
+
+#### useFileUploadPreview
+Comprehensive preview system with thumbnail generation, preview modal management, and preview caching. This would provide rich file preview capabilities without requiring custom implementation. This is most likely to be out of scope for this library but should be considered as an plug-point API to connect other third-party preview solutions.
+
+#### useFileUploadSecurity
+Client-side security scanning integration, virus detection hooks, and security policy enforcement. Enterprise environments often require additional security layers before files reach the server.
+
+#### useFileUploadAnalytics
+Upload analytics and telemetry collection with success rate tracking, performance metrics, and usage insights. This would provide valuable data for optimizing upload experiences and identifying issues.
+
+These features represent natural extensions of the core architecture and could be added in future releases.
+
+### Integration Patterns Research
+
+**TODO: Research and document integration patterns for common upload scenarios**
+
+While integration patterns will not be part of this library, the API design must ensure sufficient flexibility and plug-points for various backend integration scenarios. Key areas requiring research include:
+
+#### Backend Service Integration
+- **Upload Service APIs**: Ensure the feature hooks provide necessary callbacks and state management for different upload service patterns (direct upload, presigned URLs, chunked uploads)
+- **Example Integrations**: Research common integration patterns with popular services like AWS S3, Azure Blob Storage, Google Cloud Storage, and third-party services like Uploadcare, Filestack, and Cloudinary. Provide a comprehensive guide or examples for developers to follow.
+
+#### State Synchronization
+- **Server State Sync**: Research patterns for synchronizing client-side file state with server-side upload progress and status
+- **Real-time Updates**: Investigate WebSocket and polling patterns that can integrate with the progress and status utilities
+
+#### Performance Considerations
+- **Large File Handling**: Research chunked upload patterns and ensure the orchestration hook can support complex upload orchestration
+- **Concurrent Uploads**: Verify that the architecture can support various concurrent upload patterns and rate limiting
+- **Memory Management**: Study patterns for handling large file lists and ensure the filtering and sorting hooks scale appropriately
+- **Virtualization**: Ensure compatibility with Fluent UI's `List` component or virtualization hooks.
+
+This research will ensure that while the library remains focused on client-side concerns, it provides the necessary extensibility points for robust backend integration.
+
+<span style={{ display: "none"}}>[^23][^24][^25][^26][^27][^28][^29][^30][^31][^32][^33][^34][^35][^36][^37][^38][^39][^40][^41][^42][^43][^44][^45][^46][^47][^48][^49][^50][^51][^52][^53][^54][^55][^56][^57][^58][^59][^60][^61][^62][^63][^64][^65][^66][^67][^68][^69][^70][^71][^72][^73][^74][^75]</span>
+
+
+[^1]: https://carbondesignsystem.com/components/file-uploader/usage/
+
+[^2]: https://www.telerik.com/design-system/docs/components/upload/
+
+[^3]: https://ui.vuestic.dev/ui-elements/file-upload/
+
+[^4]: https://dev.to/paulgildea/using-slots-with-fluent-ui-react-v9-jf1
+
+[^5]: https://learn.microsoft.com/en-us/shows/fluent-ui-insights/fluent-ui-insights-apis-in-v9-slots-jsx-children-triggers
+
+[^6]: https://uploadcare.com/blog/file-uploader-ux-best-practices/
+
+[^7]: https://fluent2.microsoft.design/get-started/design
+
+[^8]: https://v10.carbondesignsystem.com/components/file-uploader/usage/
+
+[^9]: https://www.patternfly.org/components/file-upload/multiple-file-upload/design-guidelines
+
+[^10]: https://uploadcare.com/blog/file-uploader-accessibility/
+
+[^11]: https://www.htmlelements.com/docs/fileupload-accessibility/
+
+[^12]: https://www.telerik.com/design-system/docs/components/upload/accessibility/
+
+[^13]: https://blog.pixelfreestudio.com/best-practices-for-secure-file-uploads-on-websites/
+
+[^14]: https://react-dropzone.js.org
+
+[^15]: https://react-dropzone-uploader.js.org/docs/why-rdu
+
+[^16]: https://dev.to/fpaghar/react-dropzone-a-thorough-introduction-5ebj
+
+[^17]: https://npm-compare.com/blueimp-file-upload,dropzone,filepond,fine-uploader,react-dropzone,uppy
+
+[^18]: https://www.reddit.com/r/reactjs/comments/1avmyro/why_does_reactdropzone_use_usecallback_for_its/
+
+[^19]: https://uploadcare.com/blog/how-to-make-a-drag-and-drop-file-uploader/
+
+[^20]: https://malcoded.com/posts/react-dropzone/
+
+[^21]: https://stackoverflow.com/questions/54998926/how-to-add-wai-aria-property-for-file-picker
+
+[^22]: https://www.w3.org/WAI/ARIA/apg/
+
+[^23]: https://uploadcare.com/blog/how-to-upload-file-in-react/
+
+[^24]: https://www.telerik.com/kendo-react-ui/upload
+
+[^25]: https://www.uinkits.com/components/file-upload-ui-element
+
+[^26]: https://www.smashingmagazine.com/2022/03/drag-drop-file-uploader-vuejs-3/
+
+[^27]: https://github.com/rpldy/react-uploady
+
+[^28]: https://vaadin.com/docs/latest/components/upload
+
+[^29]: https://primevue.org/fileupload/
+
+[^30]: https://www.files-ui.com
+
+[^31]: https://base.uber.com/6d2425e9f/p/5555b5-file-upload
+
+[^32]: https://element-plus.org/en-US/component/upload
+
+[^33]: https://www.reddit.com/r/reactjs/comments/xxo9vw/any_good_library_to_handle_file_uploads/
+
+[^34]: https://www.uinkits.com/blog-post/what-are-file-upload-components-and-how-to-use-them-in-ui-ux-design
+
+[^35]: https://vuetifyjs.com/en/components/file-upload/
+
+[^36]: https://www.reactfileupload.com
+
+[^37]: https://www.delldesignsystem.com/components/file-input
+
+[^38]: https://ui.nuxt.com/components/file-upload
+
+[^39]: https://dev.to/derick1530/how-to-implement-custom-file-validation-in-react-dropzone-33le
+
+[^40]: https://www.youtube.com/watch?v=eGVC8UUqCBE
+
+[^41]: https://tigeroakes.com/posts/fluent-ui-css-tricks/
+
+[^42]: https://soulfx.com/2023/09/a-list-of-16-best-practices-for-designing-file-upload-functionality-on-a-mobile-app/
+
+[^43]: https://www.youtube.com/watch?v=DfG0VZKXcL4
+
+[^44]: https://www.youtube.com/watch?v=uxuIJlYmKGk
+
+[^45]: https://carbondesignsystem.com/components/file-uploader/accessibility/
+
+[^46]: https://github.com/react-dropzone/react-dropzone/issues/1265
+
+[^47]: https://github.com/microsoft/fluentui/discussions/26890
+
+[^48]: https://smart-interface-design-patterns.com/articles/drag-and-drop-ux/
+
+[^49]: https://www.dropzone.dev/js/
+
+[^50]: https://fluentuipr.z22.web.core.windows.net/heads/master/public-docsite-v9/storybook/iframe.html?id=concepts-developer-customizing-components-with-slots--page
+
+[^51]: https://www.valantic.com/en/blog/improving-the-ux-of-the-file-upload-component-in-outsystems/
+
+[^52]: https://learn.microsoft.com/en-us/dynamics365/fin-ops-core/dev-itpro/user-interface/file-upload-control
+
+[^53]: https://github.com/microsoft/fluentui-blazor
+
+[^54]: https://learn.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads?view=aspnetcore-9.0
+
+[^55]: https://stackoverflow.com/questions/68065096/how-to-manage-component-states-loading-error-data-in-react
+
+[^56]: https://astro.build/case-studies/microsoft/
+
+[^57]: https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-add-file-upload
+
+[^58]: https://fluent2.microsoft.design
+
+[^59]: https://www.linkedin.com/pulse/how-design-file-upload-sharing-services-narendra-l
+
+[^60]: https://baseweb.design/blog/file-uploader/
+
+[^61]: https://www.figma.com/community/file/836828295772957889/microsoft-fluent-2-web
+
+[^62]: https://github.com/alphagov/govuk-design-system-backlog/issues/49
+
+[^63]: https://www.meshdesignsystem.com/components/file-upload-component
+
+[^64]: https://fluent2.microsoft.design/layout
+
+[^65]: https://www.microsoft.com/en-us/microsoft-365/business-insights-ideas/resources/11-ideas-for-how-to-organize-digital-files
+
+[^66]: https://v5-archive.patternfly.org/components/file-upload/simple-file-upload
+
+[^67]: https://developer.microsoft.com/en-us/fluentui
+
+[^68]: https://fluent2.microsoft.design/design-principles
+
+[^69]: https://www.smashingmagazine.com/2022/08/error-messages-ux-design/
+
+[^70]: https://www.telerik.com/kendo-react-ui/components/upload/accessibility/wai-aria-support
+
+[^71]: https://vista.design/swan/patterns/file-upload/
+
+[^72]: https://uploadcare.com/docs/file-uploader/a11y/
+
+[^73]: https://www.nngroup.com/articles/errors-forms-design-guidelines/
+
+[^74]: https://docs.appian.com/suite/help/25.3/File_Upload_Component.html
+
+[^75]: https://design-system.service.gov.uk/components/file-upload/
+

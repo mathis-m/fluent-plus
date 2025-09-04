@@ -1,0 +1,9 @@
+{
+    "name": "file-upload-stories",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/file-upload/stories/src",
+    "projectType": "library",
+    "tags": ["type:stories"],
+    "// targets": "to see all targets run: nx show project file-upload-stories --web",
+    "targets": {}
+}

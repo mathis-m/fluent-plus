@@ -1,4 +1,82 @@
-<link rel="icon" type="image/svg" sizes="16x16" href="/favicon.svg" />
+<!-- SEO Meta Tags -->
+<title>FluentPlus - Comprehensive Component Library for Fluent UI v9</title>
+<meta name="description" content="FluentPlus is a comprehensive component library built on top of Fluent UI v9 that extends and enhances Microsoft's design system with core components, complex frameworks, and high-level assemblies for enterprise applications." />
+<meta name="keywords" content="FluentPlus, Fluent UI, React components, Microsoft design system, component library, enterprise components, UI framework, design system, React" />
+<meta name="author" content="Mathis Michel" />
+<meta name="robots" content="index, follow" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="FluentPlus - Comprehensive Component Library for Fluent UI v9" />
+<meta property="og:description" content="Extend Fluent UI v9 with powerful, customizable components for enterprise applications. Core components, complex frameworks, and high-level assemblies." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://mathis-m.github.io/fluent-plus/" />
+<meta property="og:site_name" content="FluentPlus" />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="FluentPlus - Comprehensive Component Library for Fluent UI v9" />
+<meta name="twitter:description" content="Extend Fluent UI v9 with powerful, customizable components for enterprise applications. Core components, complex frameworks, and high-level assemblies." />
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://mathis-m.github.io/fluent-plus/" />
+
+<!-- Favicon and Icons -->
+<link rel="icon" type="image/svg+xml" sizes="16x16" href="/favicon.svg" />
+<link rel="icon" type="image/svg+xml" sizes="32x32" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/favicon.svg" />
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "FluentPlus",
+  "description": "A comprehensive component library built on top of Fluent UI v9 that extends and enhances the capabilities of Microsoft's design system",
+  "url": "https://mathis-m.github.io/fluent-plus/",
+  "codeRepository": "https://github.com/mathis-m/fluent-plus",
+  "codeSampleType": "full (compile ready) solutions",
+  "programmingLanguage": [
+    {
+      "@type": "ComputerLanguage",
+      "name": "TypeScript"
+    },
+    {
+      "@type": "ComputerLanguage", 
+      "name": "JavaScript"
+    }
+  ],
+  "runtimePlatform": [
+    "React 18+",
+    "Node.js",
+    "Fluent UI v9"
+  ],
+  "targetProduct": {
+    "@type": "SoftwareApplication",
+    "name": "React Applications",
+    "applicationCategory": "WebApplication"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Mathis Michel"
+  },
+  "creator": {
+    "@type": "Person",
+    "name": "Mathis Michel"
+  },
+  "maintainer": {
+    "@type": "Person",
+    "name": "Mathis Michel"
+  },
+  "license": "https://unlicense.org/",
+  "isAccessibleForFree": true,
+  "keywords": "FluentPlus, Fluent UI, React components, Microsoft design system, component library, enterprise components, UI framework, design system, TypeScript",
+  "version": "latest",
+  "datePublished": "2025",
+  "inLanguage": "en-US"
+}
+</script>
 
 <style>
     @font-face {
@@ -146,5 +224,19 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+    }
+
+    /* Fix alignment of file icon in the sidebar */
+    .sidebar-item > a > div {
+        margin-top: 0 !important;
+    }
+
+    .sidebar-item > a {
+        align-items: center !important;
+    }
+
+    /* Fix alignment of folder icon in the sidebar, svg is badly aligned */
+    .sidebar-item > button > div > svg:last-child {
+        margin-top: 1px !important;
     }
 </style>

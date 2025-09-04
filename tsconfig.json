@@ -8,6 +8,12 @@
         },
         {
             "path": "./apps/public-docsite"
+        },
+        {
+            "path": "./packages/file-upload/library"
+        },
+        {
+            "path": "./packages/file-upload/stories"
         }
     ],
     "ts-node": {

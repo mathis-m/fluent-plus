@@ -27,6 +27,8 @@ const preview: Preview = {
         options: {
             storySort: {
                 method: "alphabetical",
+                order: ["Concepts", ["Introduction"], "Components"],
+
             },
         },
         docs: {

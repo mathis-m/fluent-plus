@@ -31,7 +31,6 @@ function normalizeOptions(tree: Tree, options: ReactComponentGeneratorSchema) {
         project: options.project,
         componentDir: joinPathFragments(srcRoot, "components", variations.fileName),
         srcRoot: srcRoot,
-        rootComponentFilePath: joinPathFragments(srcRoot, `${variations.fileName}.ts`),
         storiesSrcRoot: storiesSrcRoot,
         projectName: options.project,
         projectTitle: options.project.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" "),
@@ -42,18 +41,27 @@ function normalizeOptions(tree: Tree, options: ReactComponentGeneratorSchema) {
 export async function reactComponentGenerator(tree: Tree, options: ReactComponentGeneratorSchema) {
     const normalizedOptions = normalizeOptions(tree, options);
 
-    if (tree.exists(normalizedOptions.rootComponentFilePath)) {
+    if (tree.exists(normalizedOptions.componentDir)) {
         throw new Error(`Component ${normalizedOptions.pascalCaseName} already exists in project ${options.project}.`);
     }
 
     // Generate library files
     generateFiles(tree, path.join(__dirname, "files", "component"), normalizedOptions.componentDir, normalizedOptions);
-    generateFiles(tree, path.join(__dirname, "files", "root"), normalizedOptions.srcRoot, normalizedOptions);
 
-    const componentExports = tree.read(normalizedOptions.rootComponentFilePath, "utf-8");
-    if (!componentExports) {
-        throw new Error(`Generation failed: missing root component file`);
-    }
+    // Construct the component reexport content directly in code
+    const componentExports = `export type {
+    ${normalizedOptions.pascalCaseName}Props,
+    ${normalizedOptions.pascalCaseName}State,
+    ${normalizedOptions.pascalCaseName}Slots,
+} from "./components/${normalizedOptions.kebabCaseName}";
+export {
+    ${normalizedOptions.pascalCaseName},
+    ${normalizedOptions.camelCaseName}ClassNames,
+    render${normalizedOptions.pascalCaseName},
+    use${normalizedOptions.pascalCaseName}Styles,
+    use${normalizedOptions.pascalCaseName},
+} from "./components/${normalizedOptions.kebabCaseName}";
+`;
 
     const indexTsPath = joinPathFragments(normalizedOptions.srcRoot, "index.ts");
     const indexTsContent = tree.read(indexTsPath, "utf-8");
