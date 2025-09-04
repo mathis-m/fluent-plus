@@ -8,9 +8,12 @@ const useStyles = makeStyles({
     container: {
         display: "grid",
         width: "100%",
-        gridTemplateColumns: "1fr 1fr 1fr",
         gap: tokens.spacingHorizontalL,
-        flexWrap: "wrap",
+        gridTemplateColumns: "1fr 1fr 1fr",
+        '@media (max-width: 900px)': {
+            gridTemplateColumns: "1fr",
+        },
+        justifyItems: "center",
     },
 });
 

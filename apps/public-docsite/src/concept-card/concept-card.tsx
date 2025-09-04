@@ -14,7 +14,7 @@ import { ConceptCardProvider } from "./concept-card-context";
 
 const useStyles = makeStyles({
     card: {
-        maxWidth: "100%",
+        maxWidth: "min(400px, 100%)",
     },
     cardPreview: {
         display: "flex",
