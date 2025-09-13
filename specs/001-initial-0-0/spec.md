@@ -29,7 +29,7 @@
 ## User Scenarios & Testing *(mandatory)*
 
 ### Primary User Story
-As a React developer building applications with Fluent UI v9, I want to use comprehensive file upload components from FluentPlus so that I can provide users with modern, accessible file upload experiences without building complex upload functionality from scratch.
+As a React developer building applications with Fluent UI v9, I want to use a file upload components from FluentPlus so that I can provide users with modern, accessible file upload experiences. I want to fully control the state externally, the FluentPlus component should only focus on the UI/UX for the initial release.
 
 ### Acceptance Scenarios
 
@@ -45,12 +45,6 @@ As a React developer building applications with Fluent UI v9, I want to use comp
 
 6. **Given** a developer integrates FluentPlus with their existing Fluent UI v9 application, **When** they implement file upload components, **Then** the components seamlessly match their application's theme and design tokens
 
-### Edge Cases
-- What happens when users drag unsupported file types onto the dropzone?
-- How does the system handle files that exceed size limits?
-- What occurs when users attempt to upload duplicate files?
-- How do components behave when JavaScript is disabled?
-- What happens when network connectivity is lost during file selection?
 
 ## Requirements *(mandatory)*
 
@@ -104,9 +98,7 @@ As a React developer building applications with Fluent UI v9, I want to use comp
 
 ### Key Entities
 
-- **File Entity**: Represents an individual file with properties including name, size, type, upload status, progress percentage, and error messages
-- **FileUpload State**: Manages the basic upload component state including selected files and user interaction states
-- **Upload Progress**: Tracks individual file upload progress with completion percentage and status information
+n/A - The core components will only work through slots and props. All information and behaviour is configured in this way.
 
 ---
 

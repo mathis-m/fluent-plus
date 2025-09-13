@@ -45,7 +45,7 @@
 
 **Rationale**:
 - Components should manage their own state independently
-- Allow parent components to coordinate state through props and callbacks
+- Allow the developer to coordinate state through props and callbacks from outside
 - Avoid complex state management for initial 0.0.1 release
 - Focus on solid component foundations that can be enhanced later
 - Maintain compatibility with various state management patterns developers might use
@@ -153,10 +153,11 @@
 - Accessibility features work seamlessly with Fluent UI patterns
 
 ### Nx Monorepo Considerations
-- Use nx g @fluent-plus/workspace-plugin:react-lib for library generation
+- Use nx g @fluent-plus/workspace-plugin:react-lib for library generation (only for new libraries that will be part of the @fluent-plus/react-components package)
 - Use nx g @fluent-plus/workspace-plugin:react-component for component scaffolding
+- Use nx g @nx/react:lib for @fluent-plus/react-components library generation
 - Follow established project structure in packages/ directory
-- Maintain consistency with existing tsconfig and build configurations
+- Maintain consistency with existing tsconfig and build configurations if needed, this should be handled by generator.
 
 ### Component Testing Patterns
 - Each component should have comprehensive unit tests
@@ -184,11 +185,6 @@
 - Code examples for common use cases
 - Migration guide for developers adopting the library
 
-### Future Extensibility
-- Plugin hook architecture for additional features
-- Clear extension points for enterprise features
-- Backward compatibility considerations for API evolution
-- Integration patterns documentation for common scenarios
 
 ## Conclusion
 

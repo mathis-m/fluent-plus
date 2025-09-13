@@ -34,7 +34,7 @@ export async function reactLibGenerator(tree: Tree, options: ReactLibGeneratorSc
         name: normalizedOptions.projectName,
         importPath: `@fluent-plus/${normalizedOptions.projectName}`,
         directory: normalizedOptions.libraryRoot,
-        bundler: "vite",
+        bundler: "rollup",
         unitTestRunner: "jest",
         linter: "eslint",
         component: false,

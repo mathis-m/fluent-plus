@@ -1,573 +1,409 @@
-# QuickStart Guide: FluentPlus File Upload Components
+# Quick Start Guide: FluentPlus File Upload Components
 
-**Version**: 0.0.1  
-**Date**: September 6, 2025  
-**Prerequisites**: React 18+, Fluent UI v9 setup in your application
+**Package**: @fluent-plus/file-upload@0.0.1  
+**Re-export**: @fluent-plus/react-components@0.0.1  
+**Compatibility**: React 18+, Fluent UI v9
 
 ## Installation
 
+### Option 1: Direct Package (Recommended)
 ```bash
-# Install the file upload component package
 npm install @fluent-plus/file-upload
+# or
+yarn add @fluent-plus/file-upload
+# or
+pnpm add @fluent-plus/file-upload
+```
 
-# Or install the convenience re-export package
+### Option 2: Convenience Re-export Package
+```bash
 npm install @fluent-plus/react-components
+# or
+yarn add @fluent-plus/react-components
+# or
+pnpm add @fluent-plus/react-components
+```
 
-# Ensure peer dependencies are installed
-npm install @fluentui/react-components react react-dom
+## Peer Dependencies
+
+Ensure you have the required peer dependencies:
+
+```bash
+npm install @fluentui/react-components react react-dom @fluent-ui/react-components
 ```
 
 ## Basic Usage
 
-### 1. Simple File Upload with All Components
+### 1. Import Components
 
-```tsx
+```typescript
+// Direct import (recommended for tree-shaking)
+import { FileUpload, FileList, FileItem } from '@fluent-plus/file-upload';
+
+// Or from convenience package
+import { FileUpload, FileList, FileItem } from '@fluent-plus/react-components';
+```
+
+### 2. Simple File Upload
+
+```typescript
 import React, { useState } from 'react';
-import { FileUpload, FileList, FileItem, FileEntity } from '@fluent-plus/file-upload';
+import { FileUpload, FileList, FileItem } from '@fluent-plus/file-upload';
 
-function App() {
-  const [files, setFiles] = useState<FileEntity[]>([]);
+function SimpleUploadExample() {
+  const [files, setFiles] = useState<File[]>([]);
+
+  const handleFilesAdded = (newFiles: File[]) => {
+    setFiles(prev => [...prev, ...newFiles]);
+  };
+
+  const handleRemoveFile = (index: number) => {
+    setFiles(prev => prev.filter((_, i) => i !== index));
+  };
 
   return (
     <div>
-      <FileUpload
-        files={files}
-        onFilesChange={setFiles}
+      <FileUpload onFilesAdded={handleFilesAdded}>
+        Drag files here or click to browse
+      </FileUpload>
+      
+      <FileList>
+        {files.map((file, index) => (
+          <FileItem
+            key={index}
+            status="pending"
+            onRemove={() => handleRemoveFile(index)}
+          >
+            {{
+              name: file.name,
+              size: formatFileSize(file.size)
+            }}
+          </FileItem>
+        ))}
+      </FileList>
+    </div>
+  );
+}
+
+// Helper function to format file size
+function formatFileSize(bytes: number): string {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+```
+
+### 3. File Upload with Progress Tracking
+
+```typescript
+import React, { useState } from 'react';
+import { FileUpload, FileList, FileItem } from '@fluent-plus/file-upload';
+
+interface FileWithStatus {
+  file: File;
+  status: 'pending' | 'uploading' | 'success' | 'error';
+  progress?: number;
+  errorMessage?: string;
+}
+
+function UploadWithProgressExample() {
+  const [files, setFiles] = useState<FileWithStatus[]>([]);
+
+  const handleFilesAdded = (newFiles: File[]) => {
+    const filesWithStatus = newFiles.map(file => ({
+      file,
+      status: 'pending' as const
+    }));
+    setFiles(prev => [...prev, ...filesWithStatus]);
+  };
+
+  const simulateUpload = async (index: number) => {
+    // Update status to uploading
+    setFiles(prev => prev.map((f, i) => 
+      i === index ? { ...f, status: 'uploading' as const, progress: 0 } : f
+    ));
+
+    // Simulate progress
+    for (let progress = 0; progress <= 100; progress += 10) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      setFiles(prev => prev.map((f, i) => 
+        i === index ? { ...f, progress } : f
+      ));
+    }
+
+    // Mark as complete
+    setFiles(prev => prev.map((f, i) => 
+      i === index ? { ...f, status: 'success' as const, progress: 100 } : f
+    ));
+  };
+
+  const handleRemoveFile = (index: number) => {
+    setFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  return (
+    <div>
+      <FileUpload 
+        onFilesAdded={handleFilesAdded}
+        accept="image/*,.pdf,.doc,.docx"
         maxFiles={5}
         maxSize={10 * 1024 * 1024} // 10MB
-        accept="image/*,.pdf"
-        label="Upload your documents"
-        description="Drag files here or click to browse - Max 10MB - Images and PDFs only"
-      >
-        <FileList files={files}>
-          {files.map((file) => (
-            <FileItem
-              key={file.id}
-              file={file}
-              removable
-              onRemove={(fileId) => 
-                setFiles(files.filter(f => f.id !== fileId))
-              }
-            />
-          ))}
-        </FileList>
-      </FileUpload>
+      />
+      
+      <FileList>
+        {files.map((fileItem, index) => (
+          <FileItem
+            key={index}
+            status={fileItem.status}
+            onRemove={() => handleRemoveFile(index)}
+          >
+            {{
+              name: fileItem.file.name,
+              size: formatFileSize(fileItem.file.size),
+              ...(fileItem.status === 'error' && { errorMessage: fileItem.errorMessage }),
+              ...(fileItem.status === 'pending' && {
+                actions: (
+                  <button onClick={() => simulateUpload(index)}>
+                    Start Upload
+                  </button>
+                )
+              })
+            }}
+          </FileItem>
+        ))}
+      </FileList>
     </div>
   );
 }
 ```
 
-### 2. Standalone FileUpload (Custom File Display)
+## Advanced Usage
 
-```tsx
-import React, { useState } from 'react';
-import { FileUpload, FileEntity } from '@fluent-plus/file-upload';
+### Custom Upload Area with Slots
 
-function CustomFileUpload() {
-  const [files, setFiles] = useState<FileEntity[]>([]);
+```typescript
+import { Button, Text, Label } from '@fluentui/react-components';
+
+function CustomUploadExample() {
+  const [files, setFiles] = useState<File[]>([]);
+
+  return (
+    <FileUpload onFilesAdded={handleFilesAdded}>
+      {{
+        label: <Label size="large">Upload Documents</Label>,
+        description: (
+          <Text size={300}>
+            Drag and drop files here, or click the button below to browse.
+            Supported formats: PDF, DOC, DOCX (max 10MB each)
+          </Text>
+        ),
+        trigger: <Button appearance="primary">Choose Files</Button>
+      }}
+    </FileUpload>
+  );
+}
+```
+
+### Semantic File List
+
+```typescript
+function SemanticListExample() {
+  const [files, setFiles] = useState<File[]>([]);
 
   return (
     <div>
-      <FileUpload
-        files={files}
-        onFilesChange={setFiles}
-        multiple
-        label="Upload Files"
-      />
+      <FileUpload onFilesAdded={setFiles} />
       
-      {/* Custom file display */}
-      <div style={{ marginTop: '16px' }}>
-        {files.map((file) => (
-          <div key={file.id} style={{ padding: '8px', border: '1px solid #ccc' }}>
-            <strong>{file.name}</strong> ({file.size} bytes)
-            <button onClick={() => setFiles(files.filter(f => f.id !== file.id))}>
-              Remove
-            </button>
-          </div>
+      <FileList as="ul" role="list">
+        {files.map((file, index) => (
+          <FileItem
+            key={index}
+            status="success"
+          >
+            {{
+              name: file.name,
+              size: formatFileSize(file.size),
+              beforeContent: <FileIcon type={file.type} />,
+              afterContent: <Text size={200}>Uploaded just now</Text>
+            }}
+          </FileItem>
         ))}
-      </div>
+      </FileList>
     </div>
   );
 }
 ```
 
-### 3. Independent FileItem Usage
+### Error Handling
 
-```tsx
-import React from 'react';
-import { FileItem, FileEntity, FileStatus } from '@fluent-plus/file-upload';
+```typescript
+function ErrorHandlingExample() {
+  const [files, setFiles] = useState<FileWithStatus[]>([]);
 
-function FileDisplay({ file }: { file: FileEntity }) {
-  return (
-    <FileItem
-      file={file}
-      variant="detailed"
-      beforeContent={<img src={file.preview} alt="Preview" width="40" height="40" />}
-      afterContent={<span>Modified: {file.lastModified?.toDateString()}</span>}
-      actions={
-        <div>
-          <button>Download</button>
-          <button>Share</button>
-        </div>
+  const handleFilesAdded = (newFiles: File[]) => {
+    const filesWithStatus = newFiles.map(file => {
+      // Validate file size
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        return {
+          file,
+          status: 'error' as const,
+          errorMessage: 'File size exceeds 5MB limit'
+        };
       }
-    />
-  );
-}
-```
 
-## Advanced Usage with Simple Hooks
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        return {
+          file,
+          status: 'error' as const,
+          errorMessage: 'Only image files are allowed'
+        };
+      }
 
-### 4. Using Component Hooks for Enhanced Functionality
+      return {
+        file,
+        status: 'pending' as const
+      };
+    });
 
-```tsx
-import React from 'react';
-import { 
-  FileUpload, 
-  FileList, 
-  FileItem,
-  useFileUpload
-} from '@fluent-plus/file-upload';
-
-function AdvancedFileUpload() {
-  const {
-    files,
-    addFiles,
-    removeFile,
-    clearFiles,
-    hasFiles,
-    validateFile,
-    errors
-  } = useFileUpload({
-    maxFiles: 10,
-    maxSize: 10 * 1024 * 1024,
-    accept: 'image/*,.pdf,.docx',
-    onFileAdd: (newFiles) => {
-      console.log('Files added:', newFiles);
-    },
-    onFileRemove: (fileId) => {
-      console.log('File removed:', fileId);
-    },
-    onValidationError: (errors) => {
-      console.log('Validation errors:', errors);
-    }
-  });
-
-  const handleFilesChange = (newFiles: File[]) => {
-    addFiles(newFiles);
+    setFiles(prev => [...prev, ...filesWithStatus]);
   };
 
   return (
     <div>
-      <FileUpload
-        files={files.map(f => f.file)}
-        onFilesChange={handleFilesChange}
-        label="Advanced Upload"
-        description={`${files.length} files selected`}
-      >
-        <FileList files={files}>
-          {files.map((file) => (
-            <FileItem
-              key={file.id}
-              file={file}
-              removable
-              onRemove={removeFile}
-            />
-          ))}
-        </FileList>
-      </FileUpload>
+      <FileUpload 
+        onFilesAdded={handleFilesAdded}
+        maxSize={5 * 1024 * 1024}
+      />
       
-      {errors.length > 0 && (
-        <div style={{ marginTop: '8px', color: 'red' }}>
-          {errors.map((error, index) => (
-            <div key={index}>{error.message}</div>
-          ))}
+      <FileList>
+        {files.map((fileItem, index) => (
+          <FileItem
+            key={index}
+            status={fileItem.status}
+            onRemove={() => handleRemoveFile(index)}
+          >
+            {{
+              name: fileItem.file.name,
+              size: formatFileSize(fileItem.file.size),
+              ...(fileItem.status === 'error' && { errorMessage: fileItem.errorMessage })
+            }}
+          </FileItem>
+        ))}
+      </FileList>
+    </div>
+  );
+}
+```
+
+## TypeScript Support
+
+The library includes comprehensive TypeScript definitions:
+
+```typescript
+import type { 
+  FileUploadProps, 
+  FileListProps, 
+  FileItemProps 
+} from '@fluent-plus/file-upload';
+
+// Type-safe component usage
+const MyUpload: React.FC<FileUploadProps> = (props) => {
+  return <FileUpload {...props} />;
+};
+```
+
+## Accessibility Features
+
+All components include built-in accessibility features:
+
+- **Keyboard Navigation**: Tab, Enter, and Space key support
+- **Screen Reader Support**: ARIA labels and live regions
+- **High Contrast Mode**: Automatic compatibility
+- **Focus Management**: Clear focus indicators
+
+## Integration with Fluent UI v9
+
+Components automatically integrate with your Fluent UI v9 theme:
+
+```typescript
+import { FluentProvider, webLightTheme } from '@fluentui/react-components';
+
+function App() {
+  return (
+    <FluentProvider theme={webLightTheme}>
+      <FileUpload onFilesAdded={handleFiles} />
+      {/* Components automatically use theme tokens */}
+    </FluentProvider>
+  );
+}
+```
+
+## Common Patterns
+
+### File Upload with Real Backend
+
+```typescript
+async function uploadToServer(file: File): Promise<void> {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch('/api/upload', {
+    method: 'POST',
+    body: formData
+  });
+
+  if (!response.ok) {
+    throw new Error('Upload failed');
+  }
+}
+
+function RealUploadExample() {
+  // Implementation with actual server upload
+  // See full example in documentation
+}
+```
+
+### Drag and Drop with Visual Feedback
+
+```typescript
+function VisualFeedbackExample() {
+  return (
+    <FileUpload onFilesAdded={handleFiles}>
+      {({ isDragActive, isDragAccept, isDragReject }) => (
+        <div 
+          style={{
+            border: `2px dashed ${
+              isDragReject ? 'red' : 
+              isDragAccept ? 'green' : 
+              isDragActive ? 'blue' : 'gray'
+            }`,
+            padding: '20px',
+            textAlign: 'center'
+          }}
+        >
+          {isDragReject && 'Invalid file type!'}
+          {isDragAccept && 'Drop files here'}
+          {!isDragActive && 'Drag files here or click to browse'}
         </div>
       )}
-      
-      <div style={{ marginTop: '16px' }}>
-        <button onClick={clearFiles} disabled={!hasFiles}>
-          Clear All Files
-        </button>
-      </div>
-    </div>
+    </FileUpload>
   );
 }
 ```
-
-## Customization Examples
-
-### 5. Custom Slots and Styling
-
-```tsx
-import React from 'react';
-import { FileUpload, makeStyles } from '@fluent-plus/file-upload';
-
-const useStyles = makeStyles({
-  customDropzone: {
-    border: '2px dashed #0078d4',
-    borderRadius: '8px',
-    padding: '40px',
-    textAlign: 'center',
-    backgroundColor: '#f3f2f1',
-    '&:hover': {
-      backgroundColor: '#edebe9'
-    }
-  },
-  customTrigger: {
-    backgroundColor: '#0078d4',
-    color: 'white',
-    border: 'none',
-    padding: '12px 24px',
-    borderRadius: '4px',
-    cursor: 'pointer'
-  }
-});
-
-function CustomStyledUpload() {
-  const styles = useStyles();
-
-  return (
-    <FileUpload
-      multiple
-      dropzone={{ className: styles.customDropzone }}
-      trigger={{ 
-        className: styles.customTrigger,
-        children: 'Browse Files'
-      }}
-    />
-  );
-}
-```
-
-### 6. Accessibility-Enhanced Components
-
-```tsx
-import React from 'react';
-import { FileUpload, FileList, FileItem } from '@fluent-plus/file-upload';
-
-function AccessibleFileUpload() {
-  const [files, setFiles] = useState<FileEntity[]>([]);
-  const [announcements, setAnnouncements] = useState<string>('');
-
-  return (
-    <div>
-      {/* Screen reader announcements */}
-      <div 
-        aria-live="polite" 
-        aria-atomic="true"
-        style={{ position: 'absolute', left: '-10000px' }}
-      >
-        {announcements}
-      </div>
-
-      <FileUpload
-        files={files}
-        onFilesChange={setFiles}
-        aria-label="File upload area"
-        aria-describedby="upload-description"
-        onFileAdd={(newFiles) => {
-          setAnnouncements(`${newFiles.length} files added to upload queue`);
-        }}
-        label="Upload Documents"
-        description={
-          <span id="upload-description">
-            Select files by dragging and dropping or clicking the browse button. 
-            Maximum 5 files, 10MB each.
-          </span>
-        }
-      >
-        <FileList 
-          files={files}
-          aria-label={`File list with ${files.length} files`}
-          role="listbox"
-        >
-          {files.map((file, index) => (
-            <FileItem
-              key={file.id}
-              file={file}
-              aria-label={`File ${index + 1}: ${file.name}, ${file.size} bytes`}
-              role="option"
-              removable
-              onRemove={(fileId) => {
-                setFiles(files.filter(f => f.id !== fileId));
-                setAnnouncements(`File ${file.name} removed from upload queue`);
-              }}
-            />
-          ))}
-        </FileList>
-      </FileUpload>
-    </div>
-  );
-}
-```
-
-## Integration Patterns
-
-### 7. Form Integration
-
-```tsx
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { FileUpload, FileEntity } from '@fluent-plus/file-upload';
-
-interface FormData {
-  title: string;
-  description: string;
-  attachments: FileEntity[];
-}
-
-function FormWithFileUpload() {
-  const { control, handleSubmit, formState: { errors } } = useForm<FormData>();
-
-  const onSubmit = (data: FormData) => {
-    console.log('Form submitted:', data);
-    // Handle form submission including file uploads
-  };
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="title">Title:</label>
-        <Controller
-          name="title"
-          control={control}
-          rules={{ required: 'Title is required' }}
-          render={({ field }) => (
-            <input {...field} type="text" />
-          )}
-        />
-        {errors.title && <span>{errors.title.message}</span>}
-      </div>
-
-      <div>
-        <Controller
-          name="attachments"
-          control={control}
-          rules={{ 
-            validate: (files) => files.length > 0 || 'At least one file is required'
-          }}
-          render={({ field: { onChange, value = [] } }) => (
-            <FileUpload
-              files={value}
-              onFilesChange={onChange}
-              label="Attachments"
-              maxFiles={3}
-            />
-          )}
-        />
-        {errors.attachments && <span>{errors.attachments.message}</span>}
-      </div>
-
-      <button type="submit">Submit</button>
-    </form>
-  );
-}
-```
-
-### 8. Server Upload Integration
-
-```tsx
-import React from 'react';
-import { 
-  FileUpload, 
-  FileList, 
-  FileItem,
-  useFileUploadOrchestration 
-} from '@fluent-plus/file-upload';
-
-function ServerIntegratedUpload() {
-  const [files, setFiles] = useState<FileEntity[]>([]);
-
-  const orchestration = useFileUploadOrchestration({
-    concurrent: 2,
-    retryAttempts: 3,
-    uploadFunction: async (file, onProgress) => {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-
-        xhr.upload.onprogress = (event) => {
-          if (event.lengthComputable) {
-            const progress = (event.loaded / event.total) * 100;
-            onProgress?.(progress);
-          }
-        };
-
-        xhr.onload = () => {
-          if (xhr.status === 200) {
-            resolve(JSON.parse(xhr.responseText));
-          } else {
-            reject(new Error(`Upload failed: ${xhr.statusText}`));
-          }
-        };
-
-        xhr.onerror = () => reject(new Error('Network error'));
-
-        xhr.open('POST', '/api/upload');
-        xhr.send(formData);
-      });
-    },
-    onUploadComplete: (fileId) => {
-      console.log('Upload completed for file:', fileId);
-    },
-    onUploadError: (fileId, error) => {
-      console.error('Upload failed for file:', fileId, error);
-    }
-  });
-
-  return (
-    <div>
-      <FileUpload
-        files={files}
-        onFilesChange={setFiles}
-        label="Upload to Server"
-      >
-        <FileList files={files}>
-          {files.map((file) => (
-            <FileItem
-              key={file.id}
-              file={file}
-              progress={orchestration.getProgress(file.id)?.percentage}
-              removable
-              onRemove={(fileId) => setFiles(files.filter(f => f.id !== fileId))}
-            />
-          ))}
-        </FileList>
-      </FileUpload>
-
-      <button 
-        onClick={() => orchestration.uploadAll()}
-        disabled={files.length === 0}
-      >
-        Upload All to Server
-      </button>
-    </div>
-  );
-}
-```
-
-## Testing Examples
-
-### 9. Component Testing
-
-```tsx
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { FileUpload, FileList, FileItem } from '@fluent-plus/file-upload';
-
-describe('FileUpload Integration', () => {
-  test('should handle file selection and display', async () => {
-    const user = userEvent.setup();
-    const onFilesChange = jest.fn();
-
-    render(
-      <FileUpload onFilesChange={onFilesChange} label="Upload Files">
-        <FileList files={[]}>
-          {/* Files will be rendered here */}
-        </FileList>
-      </FileUpload>
-    );
-
-    // Test drag and drop
-    const dropzone = screen.getByLabelText('Upload Files');
-    
-    const file = new File(['content'], 'test.txt', { type: 'text/plain' });
-    
-    await user.upload(dropzone, file);
-    
-    await waitFor(() => {
-      expect(onFilesChange).toHaveBeenCalledWith(
-        expect.arrayContaining([
-          expect.objectContaining({
-            name: 'test.txt',
-            size: 7,
-            type: 'text/plain'
-          })
-        ])
-      );
-    });
-  });
-
-  test('should validate file constraints', async () => {
-    const onValidationError = jest.fn();
-
-    render(
-      <FileUpload
-        maxSize={1024}
-        accept="image/*"
-        onValidationError={onValidationError}
-        label="Images Only"
-      />
-    );
-
-    const dropzone = screen.getByLabelText('Images Only');
-    const largeFile = new File(['x'.repeat(2048)], 'large.txt', { type: 'text/plain' });
-
-    await userEvent.upload(dropzone, largeFile);
-
-    await waitFor(() => {
-      expect(onValidationError).toHaveBeenCalledWith(
-        expect.arrayContaining([
-          expect.objectContaining({
-            code: 'FILE_TOO_LARGE'
-          })
-        ])
-      );
-    });
-  });
-});
-```
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Files not appearing after selection**
-   - Ensure `onFilesChange` callback is properly implemented
-   - Check if file validation is rejecting files
-   - Verify file constraints (size, type, count limits)
-
-2. **Drag and drop not working**
-   - Ensure react-dropzone is properly installed
-   - Check if dropzone element has proper event handlers
-   - Verify browser drag-and-drop support
-
-3. **Accessibility issues**
-   - Add proper `aria-label` attributes
-   - Ensure keyboard navigation works
-   - Test with screen readers
-
-4. **TypeScript errors**
-   - Install `@types/react` and `@types/react-dom`
-   - Ensure Fluent UI v9 types are installed
-   - Check peer dependency versions
-
-### Performance Optimization
-
-1. **Large file lists**
-   - Use `virtualized` prop on FileList for 100+ files
-   - Implement file filtering and pagination
-   - Consider lazy loading for file previews
-
-2. **Memory management**
-   - Clear file references after upload completion
-   - Avoid storing large file objects in state
-   - Use file IDs for tracking instead of full objects
-
-### Browser Compatibility
-
-- **Modern browsers**: Full support (Chrome 90+, Firefox 88+, Safari 14+, Edge 90+)
-- **Older browsers**: Basic functionality with polyfills
-- **Mobile browsers**: Touch-friendly drag-and-drop support
 
 ## Next Steps
 
-1. **Explore advanced features**: Try the feature composition hooks for complex scenarios
-2. **Customize styling**: Use Fluent UI v9 design tokens for consistent theming
-3. **Add server integration**: Implement your upload backend service
-4. **Enhance accessibility**: Add custom announcements and keyboard shortcuts
-5. **Performance tuning**: Optimize for your specific use case and file volumes
+- Explore the [full documentation](./README.md) for advanced features
+- Check out [Storybook examples](./storybook) for interactive demos
+- Review [component contracts](./contracts/) for detailed API reference
+- See [integration examples](./examples/) for real-world usage patterns
 
-For more detailed documentation and examples, visit the [FluentPlus Storybook documentation](https://mathis-m.github.io/fluent-plus/).
+## Support
+
+- **GitHub Issues**: Report bugs and request features
+- **Documentation**: Comprehensive guides and API reference
+- **TypeScript**: Full type support for development experience
+- **Accessibility**: WCAG 2.1 AA compliant components

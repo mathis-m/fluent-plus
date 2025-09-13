@@ -5,6 +5,26 @@
     "projectType": "library",
     "tags": [],
     "targets": {
+        "build": {
+            "executor": "@nx/rollup:rollup",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/packages/file-upload/library",
+                "tsConfig": "packages/file-upload/library/tsconfig.lib.json",
+                "project": "packages/file-upload/library/package.json",
+                "entryFile": "packages/file-upload/library/src/index.ts",
+                "external": ["react", "react-dom", "react/jsx-runtime"],
+                "rollupConfig": "@nx/react/plugins/bundle-rollup",
+                "compiler": "babel",
+                "assets": [
+                    {
+                        "glob": "packages/file-upload/library/README.md",
+                        "input": ".",
+                        "output": "."
+                    }
+                ]
+            }
+        },
         "test": {
             "executor": "@nx/jest:jest",
             "outputs": ["{projectRoot}/test-output/jest/coverage"],
