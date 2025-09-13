@@ -1,4 +1,4 @@
-import { addProjectConfiguration, formatFiles, generateFiles, Tree, names, joinPathFragments, readProjectConfiguration } from "@nx/devkit";
+import { formatFiles, generateFiles, Tree, names, joinPathFragments, readProjectConfiguration } from "@nx/devkit";
 import * as path from "path";
 import { ReactComponentGeneratorSchema } from "./schema";
 
