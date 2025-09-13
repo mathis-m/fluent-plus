@@ -15,7 +15,7 @@
     "exports": {
         "./package.json": "./package.json",
         ".": {
-            "development": "./src/index.ts",
+            "@fluent-plus/fluent-plus-repo": "./src/index.ts",
             "types": "./dist/index.esm.d.ts",
             "import": "./dist/index.esm.js",
             "default": "./dist/index.esm.js"
@@ -47,6 +47,5 @@
         "@fluentui/react-context-selector": ">=9.2.6 <10.0.0",
         "@fluentui/react-utilities": ">=9.24.0 <10.0.0"
     },
-    "dependencies": {
-    }
+    "dependencies": {}
 }

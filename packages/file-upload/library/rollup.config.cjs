@@ -8,9 +8,10 @@ module.exports = withNx(
         outputPath: "./dist",
         tsConfig: "./tsconfig.lib.json",
         compiler: "babel",
-        external: ["react", "react-dom", "react/jsx-runtime"],
+        external: ["react", "react-dom", "react/jsx-runtime", "@fluentui/react-jsx-runtime"],
         format: ["esm"],
         assets: [{ input: ".", output: ".", glob: "README.md" }],
+        buildLibsFromSource: true,
     },
     {
         // Provide additional rollup configuration here. See: https://rollupjs.org/configuration-options

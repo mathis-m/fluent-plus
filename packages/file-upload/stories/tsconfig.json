@@ -3,6 +3,9 @@
     "include": [],
     "references": [
         {
+            "path": "../library"
+        },
+        {
             "path": "./tsconfig.lib.json"
         }
     ],

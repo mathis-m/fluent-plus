@@ -3,6 +3,9 @@
     "include": [],
     "references": [
         {
+            "path": "../file-upload/library"
+        },
+        {
             "path": "./tsconfig.lib.json"
         },
         {
