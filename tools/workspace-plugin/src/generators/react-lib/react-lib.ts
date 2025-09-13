@@ -1,7 +1,17 @@
-import { formatFiles, generateFiles, installPackagesTask, joinPathFragments, names, Tree } from "@nx/devkit";
+import {
+    formatFiles,
+    generateFiles,
+    installPackagesTask,
+    joinPathFragments,
+    names,
+    readJson,
+    Tree,
+    writeJson,
+} from "@nx/devkit";
 import { libraryGenerator } from "@nx/react";
-import { ReactLibGeneratorSchema } from "./schema";
+import { PackageJson } from "nx/src/utils/package-json";
 import reactComponentGenerator from "../react-component/react-component";
+import { ReactLibGeneratorSchema } from "./schema";
 
 function normalizeOptions(options: ReactLibGeneratorSchema) {
     const variations = names(options.name);
@@ -34,7 +44,7 @@ export async function reactLibGenerator(tree: Tree, options: ReactLibGeneratorSc
         name: normalizedOptions.projectName,
         importPath: `@fluent-plus/${normalizedOptions.projectName}`,
         directory: normalizedOptions.libraryRoot,
-        bundler: "vite",
+        bundler: "rollup",
         unitTestRunner: "jest",
         linter: "eslint",
         component: false,
@@ -72,12 +82,7 @@ export async function reactLibGenerator(tree: Tree, options: ReactLibGeneratorSc
         template: "",
     };
 
-    generateFiles(
-        tree,
-        joinPathFragments(__dirname, "files"),
-        normalizedOptions.libraryRoot,
-        substitutions
-    );
+    generateFiles(tree, joinPathFragments(__dirname, "files"), normalizedOptions.libraryRoot, substitutions);
 
     generateFiles(
         tree,
@@ -90,6 +95,32 @@ export async function reactLibGenerator(tree: Tree, options: ReactLibGeneratorSc
         name: normalizedOptions.projectName,
         project: normalizedOptions.projectName,
     });
+
+    const packageJsonPath = joinPathFragments(normalizedOptions.libraryRoot, "package.json");
+    const packageJson = readJson<
+        PackageJson & { sideEffects?: boolean; repository?: { type: string; url: string }; license?: string }
+    >(tree, packageJsonPath);
+
+    packageJson.description = substitutions.description;
+    packageJson.sideEffects = false;
+    packageJson.repository = {
+        type: "git",
+        url: "https://github.com/mathis-m/fluent-plus",
+    };
+    packageJson.license = "UNLICENSED";
+
+    packageJson.peerDependencies = {
+        ...(packageJson.peerDependencies ?? {}),
+        "@types/react": ">=16.14.0 <20.0.0",
+        "@types/react-dom": ">=16.9.0 <20.0.0",
+        react: ">=16.14.0 <20.0.0",
+        "react-dom": ">=16.14.0 <20.0.0",
+        "@fluentui/react-components": ">=9.69.0 <10.0.0",
+        "@fluentui/react-context-selector": ">=9.2.6 <10.0.0",
+        "@fluentui/react-utilities": ">=9.24.0 <10.0.0"
+    };
+
+    writeJson(tree, packageJsonPath, packageJson);
 
     await formatFiles(tree);
 

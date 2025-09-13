@@ -1,9 +1,8 @@
 {
-    "extends": "../../../tsconfig.base.json",
+    "extends": "../../tsconfig.base.json",
     "compilerOptions": {
         "outDir": "dist",
-        "types": ["@nx/react/typings/cssmodule.d.ts", "@nx/react/typings/image.d.ts"],
-        "lib": ["dom", "ESNext"],
+        "types": ["node", "@nx/react/typings/cssmodule.d.ts", "@nx/react/typings/image.d.ts"],
         "module": "esnext",
         "moduleResolution": "bundler",
         "rootDir": "src",

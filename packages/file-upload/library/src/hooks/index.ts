@@ -1,0 +1,1 @@
+export { useFileTypeValidator } from "./use-file-type-validator";

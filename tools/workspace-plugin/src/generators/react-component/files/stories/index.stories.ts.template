@@ -1,9 +1,10 @@
 import { <%= pascalCaseName %> } from "@fluent-plus/<%= projectName %>";
 import { Default } from "./<%= kebabCaseName %>-default.stories";
 import { Example } from "./<%= kebabCaseName %>-example.stories";
+import dedent from "dedent";
 
-const description = `
-<%= description %>
+const description = dedent`
+    <%= description %>
 `;
 
 export default {

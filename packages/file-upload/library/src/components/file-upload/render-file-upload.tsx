@@ -10,5 +10,13 @@ import type { FileUploadSlots, FileUploadState } from "./file-upload.types";
 export const renderFileUpload = (state: FileUploadState) => {
     assertSlots<FileUploadSlots>(state);
 
-    return <state.root />;
+    return (
+        <state.root>
+            {state.icon && <state.icon />}
+            {state.header && <state.header />}
+            {state.description && <state.description />}
+            {state.selectFilesButton && !state.openFileSelectionOnGlobalClick && <state.selectFilesButton />}
+            {state.input && <state.input />}
+        </state.root>
+    );
 };

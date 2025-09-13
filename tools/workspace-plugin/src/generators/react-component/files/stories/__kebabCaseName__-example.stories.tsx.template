@@ -1,4 +1,5 @@
 import { <%= pascalCaseName %> } from "@fluent-plus/<%= projectName %>";
+import dedent from "dedent";
 
 export const Example = () => {
     return (
@@ -12,7 +13,9 @@ export const Example = () => {
 Example.parameters = {
     docs: {
         description: {
-            story: `The story description can use **markdown**!`,
+            story: dedent`
+                The story description can use **markdown**!
+            `,
         },
     },
 };

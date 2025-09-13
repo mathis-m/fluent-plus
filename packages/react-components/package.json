@@ -1,7 +1,14 @@
 {
-    "name": "@fluent-plus/file-upload",
+    "name": "@fluent-plus/react-components",
     "version": "0.0.1",
     "type": "module",
+    "description": "A collection of React components for building Fluent UI experiences.",
+    "sideEffects": false,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mathis-m/fluent-plus"
+    },
+    "license": "UNLICENSED",
     "main": "./dist/index.esm.js",
     "module": "./dist/index.esm.js",
     "types": "./dist/index.esm.d.ts",
@@ -18,13 +25,19 @@
         "dist",
         "!**/*.tsbuildinfo"
     ],
-    "description": "TODO: Add description",
-    "sideEffects": false,
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/mathis-m/fluent-plus"
+    "nx": {
+        "targets": {
+            "test": {
+                "executor": "@nx/jest:jest",
+                "outputs": [
+                    "{projectRoot}/test-output/jest/coverage"
+                ],
+                "options": {
+                    "jestConfig": "packages/react-components/jest.config.ts"
+                }
+            }
+        }
     },
-    "license": "UNLICENSED",
     "peerDependencies": {
         "@types/react": ">=16.14.0 <20.0.0",
         "@types/react-dom": ">=16.9.0 <20.0.0",
@@ -35,7 +48,5 @@
         "@fluentui/react-utilities": ">=9.24.0 <10.0.0"
     },
     "dependencies": {
-        "react-dropzone": "^14.3.8",
-        "file-selector": "^2.1.2"
     }
 }

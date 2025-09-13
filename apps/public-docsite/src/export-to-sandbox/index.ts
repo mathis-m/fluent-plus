@@ -6,7 +6,6 @@ export const exportToSandboxDecorator = makeDecorator({
     name: "Export To Sandbox Button Decorator",
     parameterName: "exportToSandboxDecorator",
     wrapper: (storyFn, context) => {
-        debugger
         if (context.viewMode === "docs") {
             setupExportToSandboxButton(context);
         }
