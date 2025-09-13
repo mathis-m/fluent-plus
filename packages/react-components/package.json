@@ -47,5 +47,8 @@
         "@fluentui/react-context-selector": ">=9.2.6 <10.0.0",
         "@fluentui/react-utilities": ">=9.24.0 <10.0.0"
     },
-    "dependencies": {}
+    "dependencies": {},
+    "publishConfig": {
+        "access": "public"
+    }
 }

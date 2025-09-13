@@ -1,7 +1,6 @@
 {
     "name": "@fluent-plus/workspace-plugin",
     "version": "0.0.1",
-    "private": true,
     "main": "./dist/index.js",
     "module": "./dist/index.js",
     "types": "./dist/index.d.ts",
@@ -41,12 +40,16 @@
                     ]
                 }
             }
-        }
+        },
+        "tags": [
+            "private"
+        ]
     },
     "dependencies": {
         "@nx/devkit": "21.4.1",
         "tslib": "^2.3.0",
-        "@nx/react": "^21.4.1"
+        "@nx/react": "^21.4.1",
+        "nx": "21.4.1"
     },
     "generators": "./generators.json",
     "files": [
