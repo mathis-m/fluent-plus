@@ -15,7 +15,7 @@
     "exports": {
         "./package.json": "./package.json",
         ".": {
-            "@fluent-plus/fluent-plus-repo": "./src/index.ts",
+            "@fluent-plus/freact-components": "./src/index.ts",
             "types": "./dist/index.esm.d.ts",
             "import": "./dist/index.esm.js",
             "default": "./dist/index.esm.js"
