@@ -58,7 +58,9 @@ const config: StorybookConfig = {
                         ],
                     },
                 }),
-                nxViteTsPaths(),
+                nxViteTsPaths({
+                    buildLibsFromSource: true
+                }),
             ],
         });
     },
