@@ -44,26 +44,19 @@ const config: StorybookConfig = {
         builder: "@storybook/builder-vite", // 👈 The builder enabled here.
     },
     viteFinal: async (config, options) => {
-        return mergeConfig(config, {
+        debugger;
+        const test = mergeConfig(config, {
             plugins: [
                 react({
                     babel: {
-                        overrides: [
-                            {
-                                test: /\.stories\.(jsx?$|tsx?$)/,
-                                plugins: [
-                                    [
-                                        require.resolve("@fluentui/babel-preset-storybook-full-source"),
-                                        defaultOptions,
-                                    ],
-                                ],
-                            },
-                        ],
+                        plugins: ["module:@fluentui/babel-preset-storybook-full-source"],
                     },
                 }),
                 nxViteTsPaths(),
             ],
         });
+        debugger;
+        return test;
     },
 };
 
