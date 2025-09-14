@@ -1,6 +1,6 @@
 {
     "name": "@fluent-plus/file-upload",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "type": "module",
     "main": "./dist/index.esm.js",
     "module": "./dist/index.esm.js",
