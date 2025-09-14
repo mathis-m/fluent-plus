@@ -52,10 +52,15 @@ function removeExistingExportToSandboxButton(storyContainer: HTMLDivElement) {
 }
 
 function setupClickHandler(exportToSandboxButton: HTMLButtonElement, context: StoryContext) {
+    const fullSource = context.parameters.fullSource ?? "";
+
+    const firstExportName = fullSource.match(/export (const|function) (\w+)/)?.[2] ?? "Default";
+
     const fileFactoryContext: FileFactoryContext = {
-        storyFunctionExportToken: context.originalStoryFn.name,
-        fullStorySourceCode: context.parameters.fullSource ?? "",
+        storyFunctionExportToken: firstExportName,
+        fullStorySourceCode: fullSource,
     };
+
 
     const files = fileFactories.map((factory) => factory(fileFactoryContext));
 

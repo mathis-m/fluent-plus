@@ -1,9 +1,8 @@
-import { FileUpload } from "@fluent-plus/file-upload";
+import { FileUpload, FileUploadUtils } from "@fluent-plus/file-upload";
 import { Caption1, Link, makeStyles, Text, tokens } from "@fluentui/react-components";
 import { AttachRegular } from "@fluentui/react-icons";
 import dedent from "dedent";
 import { useRef } from "react";
-import { FileUploadUtils } from "../../../library/src/components/file-upload/file-upload.types";
 
 const useStyles = makeStyles({
     root: {

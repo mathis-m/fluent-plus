@@ -1,14 +1,30 @@
 import type { StorybookConfig } from "@storybook/react-vite";
 
+import { transformAsync } from "@babel/core";
 import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
 import react from "@vitejs/plugin-react";
+import type { Plugin } from "vite";
 import { mergeConfig } from "vite";
 
-const identity = <T>(value: T) => value;
-const defaultOptions = {
-    webpackRule: {},
-    babelLoaderOptionsUpdater: identity,
-};
+function babelStorybookPlugin(): Plugin {
+    return {
+        name: "vite-plugin-babel-storybook-full-source",
+        async transform(code, id) {
+            if (/\.stories\.(jsx?|tsx?)$/.test(id)) {
+                const result = await transformAsync(code, {
+                    filename: id,
+                    plugins: ["module:@fluentui/babel-preset-storybook-full-source"],
+                });
+                return {
+                    code: result?.code ?? code,
+                    map: result?.map ?? null,
+                };
+            }
+            return null;
+        },
+    };
+}
+
 const config: StorybookConfig = {
     stories: [
         "../../../packages/**/stories/**/index.@(mdx|stories.@(js|jsx|ts|tsx))",
@@ -44,18 +60,9 @@ const config: StorybookConfig = {
         builder: "@storybook/builder-vite", // 👈 The builder enabled here.
     },
     viteFinal: async (config, options) => {
-        debugger;
         const test = mergeConfig(config, {
-            plugins: [
-                react({
-                    babel: {
-                        plugins: ["module:@fluentui/babel-preset-storybook-full-source"],
-                    },
-                }),
-                nxViteTsPaths(),
-            ],
+            plugins: [babelStorybookPlugin(), react(), nxViteTsPaths()],
         });
-        debugger;
         return test;
     },
 };
