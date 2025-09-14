@@ -16,6 +16,7 @@
         },
         "tags": [
             "private"
-        ]
+        ],
+        "implicitDependencies": ["tag:type:stories"]
     }
 }
