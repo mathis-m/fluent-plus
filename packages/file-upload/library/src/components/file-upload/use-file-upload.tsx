@@ -73,7 +73,7 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
 
     React.useImperativeHandle(fileUploadRef, () => ({
         openFileSelectionDialog: open,
-    }));
+    }), [open]);
 
     const [showDropIndicator, setShowDropIndicator] = React.useState(false);
 

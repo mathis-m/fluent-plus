@@ -142,6 +142,7 @@
         "version": {
             "preVersionCommand": "npx nx run-many -t build"
         },
-        "projects": ["packages/*", "packages/*/library"]
+        "projects": ["packages/*", "packages/*/library"],
+        "projectsRelationship": "independent"
     }
 }

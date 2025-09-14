@@ -8,10 +8,11 @@ module.exports = withNx(
         outputPath: "./dist",
         tsConfig: "./tsconfig.lib.json",
         compiler: "babel",
-        external: ["react", "react-dom", "react/jsx-runtime", "@fluentui/react-jsx-runtime"],
+        external: ["react", "react-dom", "react/jsx-runtime"],
         format: ["esm"],
-        assets: [{ input: ".", output: ".", glob: "README.md" }],
-        buildLibsFromSource: true,
+        assets: [{ input: "../../..", output: ".", glob: "README.md" }],
+        buildLibsFromSource: true,  // TODO:    there is currently a bug in withNx that will produce incorret paths for a tmp tsconfig that allows to map the existing dist folders.
+                                    //          This should be removed once that is fixed.
     },
     {
         // Provide additional rollup configuration here. See: https://rollupjs.org/configuration-options

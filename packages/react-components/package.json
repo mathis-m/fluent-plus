@@ -1,6 +1,6 @@
 {
     "name": "@fluent-plus/react-components",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "type": "module",
     "description": "A collection of React components for building Fluent UI experiences.",
     "sideEffects": false,
@@ -8,6 +8,7 @@
         "type": "git",
         "url": "https://github.com/mathis-m/fluent-plus"
     },
+    "homepage": "https://mathis-m.github.io/fluent-plus",
     "license": "UNLICENSED",
     "main": "./dist/index.esm.js",
     "module": "./dist/index.esm.js",
@@ -15,7 +16,6 @@
     "exports": {
         "./package.json": "./package.json",
         ".": {
-            "@fluent-plus/fluent-plus-repo": "./src/index.ts",
             "types": "./dist/index.esm.d.ts",
             "import": "./dist/index.esm.js",
             "default": "./dist/index.esm.js"
@@ -47,7 +47,9 @@
         "@fluentui/react-context-selector": ">=9.2.6 <10.0.0",
         "@fluentui/react-utilities": ">=9.24.0 <10.0.0"
     },
-    "dependencies": {},
+    "dependencies": {
+        "@fluent-plus/file-upload": "^0.0.2"
+    },
     "publishConfig": {
         "access": "public"
     }

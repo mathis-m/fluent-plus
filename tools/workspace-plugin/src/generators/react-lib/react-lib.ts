@@ -8,6 +8,7 @@ import {
     Tree,
     writeJson,
 } from "@nx/devkit";
+import { sortPackageJsonFields } from "@nx/js/src/utils/package-json/sort-fields";
 import { libraryGenerator } from "@nx/react";
 import { PackageJson } from "nx/src/utils/package-json";
 import reactComponentGenerator from "../react-component/react-component";
@@ -98,7 +99,7 @@ export async function reactLibGenerator(tree: Tree, options: ReactLibGeneratorSc
 
     const packageJsonPath = joinPathFragments(normalizedOptions.libraryRoot, "package.json");
     const packageJson = readJson<
-        PackageJson & { sideEffects?: boolean; repository?: { type: string; url: string }; license?: string }
+        PackageJson & { sideEffects?: boolean; repository?: { type: string; url: string }; license?: string; homepage?: string }
     >(tree, packageJsonPath);
 
     packageJson.description = substitutions.description;
@@ -108,6 +109,7 @@ export async function reactLibGenerator(tree: Tree, options: ReactLibGeneratorSc
         url: "https://github.com/mathis-m/fluent-plus",
     };
     packageJson.license = "UNLICENSED";
+    packageJson.homepage = "https://mathis-m.github.io/fluent-plus";
 
     packageJson.peerDependencies = {
         ...(packageJson.peerDependencies ?? {}),
@@ -117,10 +119,12 @@ export async function reactLibGenerator(tree: Tree, options: ReactLibGeneratorSc
         "react-dom": ">=16.14.0 <20.0.0",
         "@fluentui/react-components": ">=9.69.0 <10.0.0",
         "@fluentui/react-context-selector": ">=9.2.6 <10.0.0",
-        "@fluentui/react-utilities": ">=9.24.0 <10.0.0"
+        "@fluentui/react-utilities": ">=9.24.0 <10.0.0",
     };
 
     writeJson(tree, packageJsonPath, packageJson);
+
+    sortPackageJsonFields(tree, normalizedOptions.libraryRoot);
 
     await formatFiles(tree);
 

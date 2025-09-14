@@ -40,16 +40,14 @@
                     ]
                 }
             }
-        },
-        "tags": [
-            "private"
-        ]
+        }
     },
     "dependencies": {
         "@nx/devkit": "21.5.2",
         "tslib": "^2.3.0",
         "@nx/react": "21.5.2",
-        "nx": "21.5.2"
+        "nx": "21.5.2",
+        "@nx/js": "21.5.2"
     },
     "generators": "./generators.json",
     "files": [

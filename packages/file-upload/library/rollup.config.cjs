@@ -1,7 +1,6 @@
 const { withNx } = require("@nx/rollup/with-nx");
 const url = require("@rollup/plugin-url");
 const svg = require("@svgr/rollup");
-const replace = require("@svgr/rollup");
 
 module.exports = withNx(
     {
@@ -11,16 +10,13 @@ module.exports = withNx(
         compiler: "babel",
         external: ["react", "react-dom", "react/jsx-runtime"],
         format: ["esm"],
-        assets: [{ input: ".", output: ".", glob: "README.md" }],
-        buildLibsFromSource: true,
+        assets: [{ input: "../../..", output: ".", glob: "README.md" }],
+        buildLibsFromSource: true,  // TODO:    there is currently a bug in withNx that will produce incorret paths for a tmp tsconfig that allows to map the existing dist folders.
+                                    //          This should be removed once that is fixed.
     },
     {
         // Provide additional rollup configuration here. See: https://rollupjs.org/configuration-options
         plugins: [
-            replace({
-                'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
-                preventAssignment: true,
-            }),
             svg({
                 svgo: false,
                 titleProp: true,
