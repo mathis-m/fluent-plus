@@ -18,13 +18,10 @@ export const fileUploadClassNames: SlotClassNames<FileUploadSlots> = {
 const useStyles = makeStyles({
     root: {
         position: "relative",
-        ...shorthands.borderWidth(tokens.strokeWidthThick),
-        ...shorthands.borderStyle("dashed"),
-        ...shorthands.borderColor(tokens.colorNeutralStencil1),
         borderRadius: tokens.borderRadiusMedium,
-        backgroundColor: tokens.colorNeutralBackground2,
         outline: "none",
         transition: `border-color ${tokens.durationFast} ${tokens.curveEasyEase}`,
+        ...shorthands.borderStyle("solid"),
         ...createFocusOutlineStyle(),
     },
     clickable: {
@@ -37,6 +34,42 @@ const useStyles = makeStyles({
     vertical: {
         paddingBlock: tokens.spacingHorizontalXL,
         paddingInline: tokens.spacingVerticalXXL,
+    },
+    filled: {
+        backgroundColor: tokens.colorNeutralBackground1,
+        boxShadow: tokens.shadow4,
+        ...shorthands.borderColor(tokens.colorTransparentStroke),
+        ...shorthands.borderWidth(tokens.strokeWidthThin),
+    },
+    filledAlternative: {
+        backgroundColor: tokens.colorNeutralBackground2,
+        boxShadow: tokens.shadow4,
+        ...shorthands.borderColor(tokens.colorTransparentStroke),
+        ...shorthands.borderWidth(tokens.strokeWidthThin),
+    },
+    outline: {
+        backgroundColor: tokens.colorTransparentBackground,
+        ...shorthands.borderColor(tokens.colorNeutralStroke1),
+        ...shorthands.borderStyle("solid"),
+        ...shorthands.borderWidth(tokens.strokeWidthThin),
+    },
+    outlineAlternative: {
+        backgroundColor: tokens.colorNeutralBackground2,
+        ...shorthands.borderColor(tokens.colorNeutralStroke1),
+        ...shorthands.borderStyle("solid"),
+        ...shorthands.borderWidth(tokens.strokeWidthThin),
+    },
+    outlineDashed: {
+        backgroundColor: tokens.colorTransparentBackground,
+        ...shorthands.borderStyle("dashed"),
+        ...shorthands.borderWidth(tokens.strokeWidthThick),
+        ...shorthands.borderColor(tokens.colorNeutralStencil1),
+    },
+    outlineDashedAlternative: {
+        backgroundColor: tokens.colorNeutralBackground2,
+        ...shorthands.borderStyle("dashed"),
+        ...shorthands.borderWidth(tokens.strokeWidthThick),
+        ...shorthands.borderColor(tokens.colorNeutralStencil1),
     },
     icon: {
         display: "inline-flex",
@@ -161,6 +194,16 @@ export const useFileUploadStyles = (state: FileUploadState): FileUploadState => 
     const flexStyles = useFlexStyles();
     const interactionStyles = useInteractionStyles();
 
+    const appearanceMap: Record<NonNullable<FileUploadState["appearance"]>, string> = {
+        filled: styles.filled,
+        "filled-alternative": styles.filledAlternative,
+        outline: styles.outline,
+        "outline-alternative": styles.outlineAlternative,
+        "outline-dashed": styles.outlineDashed,
+        "outline-dashed-alternative": styles.outlineDashedAlternative,
+    };
+
+    debugger;
     const hasDescription = !!state.description;
     const useGridLayout = state.contentLayout === "horizontal" && hasDescription;
     const useLargeIcon = hasDescription || state.contentLayout === "vertical";
@@ -182,6 +225,7 @@ export const useFileUploadStyles = (state: FileUploadState): FileUploadState => 
     state.root.className = mergeClasses(
         fileUploadClassNames.root,
         styles.root,
+        appearanceMap[state.appearance],
         styles[state.contentLayout],
         layoutStyles.root,
         layoutStyles[state.contentLayout],

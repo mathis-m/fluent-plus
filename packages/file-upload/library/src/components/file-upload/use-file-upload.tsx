@@ -30,6 +30,7 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
         dropIndicationType = "always",
         fileUploadRef,
         openFileSelectionOnGlobalClick = false,
+        appearance = "outline-dashed",
     } = props;
 
     const combinedValidators = useEventCallback((file: File) => {
@@ -71,9 +72,13 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
         onDrop,
     });
 
-    React.useImperativeHandle(fileUploadRef, () => ({
-        openFileSelectionDialog: open,
-    }), [open]);
+    React.useImperativeHandle(
+        fileUploadRef,
+        () => ({
+            openFileSelectionDialog: open,
+        }),
+        [open]
+    );
 
     const [showDropIndicator, setShowDropIndicator] = React.useState(false);
 
@@ -182,6 +187,7 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
         showDropIndicator,
         isDragReject,
         isDragAccept,
-        openFileSelectionOnGlobalClick
+        openFileSelectionOnGlobalClick,
+        appearance
     };
 };

@@ -80,6 +80,37 @@ export type FileUploadProps = ComponentProps<FileUploadSlots> & {
      * @default false
      */
     openFileSelectionOnGlobalClick?: boolean;
+
+    /**
+     * Sets the appearance of the file upload component.
+     *
+     * `outline-dashed`
+     * Combines a transparent background with a dashed border and no shadow for a distinctive visual style.
+     *
+     * `outline-dashed-alternative`
+     * Similar to outline-dashed but without background color for enhanced contrast.
+     *
+     * `outline`
+     * Features a transparent background with no shadow, providing a clean, minimal look.
+     *
+     * `outline-alternative`
+     * Similar to outline appearance but without background color for enhanced contrast.
+     *
+     * `filled`
+     * The component has a shadow and background color for a prominent, elevated appearance.
+     *
+     * `filled-alternative`
+     * Similar to filled but with a slightly darker background color for enhanced contrast.
+     *
+     * @default 'outline-dashed'
+     */
+    appearance?:
+        | "filled"
+        | "filled-alternative"
+        | "outline"
+        | "outline-alternative"
+        | "outline-dashed"
+        | "outline-dashed-alternative";
 };
 
 /**
@@ -110,7 +141,7 @@ export type FileUploadUtils = {
  * State for the FileUpload component
  */
 export type FileUploadState = ComponentState<FileUploadSlots> &
-    Required<Pick<FileUploadProps, "contentLayout" | "openFileSelectionOnGlobalClick">> & {
+    Required<Pick<FileUploadProps, "contentLayout" | "openFileSelectionOnGlobalClick" | "appearance">> & {
         showDropIndicator: boolean;
         isDragReject: boolean;
         isDragAccept: boolean;
