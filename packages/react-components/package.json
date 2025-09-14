@@ -1,6 +1,6 @@
 {
     "name": "@fluent-plus/react-components",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "type": "module",
     "description": "A collection of React components for building Fluent UI experiences.",
     "sideEffects": false,
@@ -48,7 +48,7 @@
         "@fluentui/react-utilities": ">=9.24.0 <10.0.0"
     },
     "dependencies": {
-        "@fluent-plus/file-upload": "^0.0.3"
+        "@fluent-plus/file-upload": "^0.0.4"
     },
     "publishConfig": {
         "access": "public"
