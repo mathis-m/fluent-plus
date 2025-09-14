@@ -1,6 +1,7 @@
 const { withNx } = require("@nx/rollup/with-nx");
 const url = require("@rollup/plugin-url");
 const svg = require("@svgr/rollup");
+const replace = require("@svgr/rollup");
 
 module.exports = withNx(
     {
@@ -8,7 +9,7 @@ module.exports = withNx(
         outputPath: "./dist",
         tsConfig: "./tsconfig.lib.json",
         compiler: "babel",
-        external: ["react", "react-dom", "react/jsx-runtime", "@fluentui/react-jsx-runtime"],
+        external: ["react", "react-dom", "react/jsx-runtime"],
         format: ["esm"],
         assets: [{ input: ".", output: ".", glob: "README.md" }],
         buildLibsFromSource: true,
@@ -16,6 +17,10 @@ module.exports = withNx(
     {
         // Provide additional rollup configuration here. See: https://rollupjs.org/configuration-options
         plugins: [
+            replace({
+                'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
+                preventAssignment: true,
+            }),
             svg({
                 svgo: false,
                 titleProp: true,

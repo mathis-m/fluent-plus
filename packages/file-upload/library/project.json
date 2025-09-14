@@ -5,6 +5,11 @@
     "projectType": "library",
     "tags": [],
     "targets": {
+        "build": {
+            "configurations": {
+                "production": {}
+            }
+        },
         "test": {
             "executor": "@nx/jest:jest",
             "outputs": ["{projectRoot}/test-output/jest/coverage"],
