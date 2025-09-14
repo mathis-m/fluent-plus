@@ -37,9 +37,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build Projects
+        run: npx nx@latest run-many --target=build --all --parallel
       - name: Build Storybook
-        run: npx nx@latest build-storybook public-docsite --verbose
-
+        run: npx nx@latest build-storybook public-docsite
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
