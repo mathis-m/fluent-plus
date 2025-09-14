@@ -122,6 +122,13 @@ export async function reactLibGenerator(tree: Tree, options: ReactLibGeneratorSc
         "@fluentui/react-utilities": ">=9.24.0 <10.0.0",
     };
 
+    // TODO: WTF! Investigate why nx does that resulting file is not ./dist/index.esm.d.ts but instead ./dist/index.d.ts
+    packageJson.types = `./dist/index.d.ts`;
+
+    const exports = (packageJson.exports as any) ?? {};
+    exports["."].types = packageJson.types;
+    delete exports["."]["@fluent-plus/fluent-plus-repo"];
+
     writeJson(tree, packageJsonPath, packageJson);
 
     sortPackageJsonFields(tree, normalizedOptions.libraryRoot);

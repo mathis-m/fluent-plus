@@ -3,7 +3,7 @@
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/file-upload/library/src",
     "projectType": "library",
-    "tags": ["type:library", "scope:fluent-plus"],
+    "tags": [],
     "targets": {
         "build": {
             "configurations": {
