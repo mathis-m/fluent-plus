@@ -36,7 +36,7 @@ Whether you're looking to fill gaps in Fluent UI's component catalog, implement 
 ## Installation
 
 ```bash
-npm install fluent-plus
+npm install @fluent-plus/react-components @fluentui/react-components
 ```
 
 ## Contributing
