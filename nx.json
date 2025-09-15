@@ -143,6 +143,9 @@
             "preVersionCommand": "npx nx run-many -t build"
         },
         "projects": ["packages/*", "packages/*/library"],
+        "changelog": {
+            "workspaceChangelog": true
+        },
         "projectsRelationship": "independent"
     }
 }
