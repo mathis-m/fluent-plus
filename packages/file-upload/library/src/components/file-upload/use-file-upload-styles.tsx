@@ -27,14 +27,6 @@ const useStyles = makeStyles({
     clickable: {
         cursor: "pointer",
     },
-    horizontal: {
-        paddingBlock: tokens.spacingVerticalXXL,
-        paddingInline: tokens.spacingHorizontalXL,
-    },
-    vertical: {
-        paddingBlock: tokens.spacingHorizontalXL,
-        paddingInline: tokens.spacingVerticalXXL,
-    },
     filled: {
         backgroundColor: tokens.colorNeutralBackground1,
         boxShadow: tokens.shadow4,
@@ -98,88 +90,85 @@ const useInteractionStyles = makeStyles({
 });
 
 /**
- * Styles for layout horizontal when description is present
+ * Layout styles
  */
-const useGridStyles = makeStyles({
-    root: {
+const useLayoutStyles = makeStyles({
+    // Grid layout styles (used for horizontal layout with description)
+    gridLayout: {
         display: "grid",
         gridAutoColumns: "min-content 1fr auto 0px",
         columnGap: tokens.spacingHorizontalXS,
         rowGap: tokens.spacingVerticalXS,
         alignItems: "center",
+        paddingBlock: tokens.spacingVerticalXXL,
+        paddingInline: tokens.spacingHorizontalXL,
     },
-    horizontal: {},
-    vertical: {},
-    icon: {
+    gridIcon: {
         marginRight: tokens.spacingHorizontalM,
         gridColumnStart: "1",
         gridRowStart: "span 2",
     },
-    header: {
+    gridHeader: {
         gridColumnStart: "2",
         gridRowStart: "1",
     },
-    description: {
+    gridDescription: {
         gridColumnStart: "2",
         gridRowStart: "2",
     },
-    selectFilesButton: {
+    gridButton: {
         marginLeft: tokens.spacingHorizontalM,
         gridColumnStart: "3",
         gridRowStart: "span 2",
     },
-    input: {
+    gridInput: {
         gridColumnStart: "4",
         gridRowStart: "span 2",
     },
-});
 
-/**
- * Styles for layout horizontal when description is absent and for vertical layout
- */
-const useFlexStyles = makeStyles({
-    root: {
+    // Horizontal flex layout styles (used for horizontal layout without description)
+    horizontalLayout: {
         display: "flex",
-        columnGap: tokens.spacingHorizontalXS,
-        rowGap: tokens.spacingVerticalXS,
-    },
-    horizontal: {
         flexFlow: "row nowrap",
         justifyContent: "flex-start",
         alignItems: "center",
-
-        [`& .${fileUploadClassNames.icon}`]: {
-            marginRight: tokens.spacingHorizontalM,
-        },
-
-        [`& .${fileUploadClassNames.selectFilesButton}`]: {
-            marginLeft: tokens.spacingHorizontalM,
-        },
-
-        [`& .${fileUploadClassNames.header}`]: {
-            flexGrow: 1,
-        },
+        columnGap: tokens.spacingHorizontalXS,
+        rowGap: tokens.spacingVerticalXS,
+        paddingBlock: tokens.spacingVerticalXXL,
+        paddingInline: tokens.spacingHorizontalXL,
     },
-    vertical: {
+    horizontalIcon: {
+        marginRight: tokens.spacingHorizontalM,
+    },
+    horizontalHeader: {
+        flexGrow: 1,
+    },
+    horizontalButton: {
+        marginLeft: tokens.spacingHorizontalM,
+    },
+
+    // Vertical flex layout styles
+    verticalLayout: {
+        display: "flex",
         flexFlow: "column nowrap",
         justifyContent: "center",
         alignItems: "center",
-
-        [`& .${fileUploadClassNames.icon}`]: {
-            marginBottom: tokens.spacingHorizontalM,
-        },
-
-        [`& .${fileUploadClassNames.selectFilesButton}`]: {
-            marginTop: tokens.spacingHorizontalM,
-        },
-
-        [`& .${fileUploadClassNames.header}`]: {
-            textAlign: "center",
-        },
-
-        [`& .${fileUploadClassNames.description}`]: {
-            textAlign: "center",
-        },
+        columnGap: tokens.spacingHorizontalXS,
+        rowGap: tokens.spacingVerticalXS,
+        paddingBlock: tokens.spacingHorizontalXL,
+        paddingInline: tokens.spacingVerticalXXL,
+    },
+    verticalIcon: {
+        marginBottom: tokens.spacingHorizontalM,
+    },
+    verticalHeader: {
+        textAlign: "center",
+    },
+    verticalDescription: {
+        textAlign: "center",
+    },
+    verticalButton: {
+        marginTop: tokens.spacingHorizontalM,
     },
 });
 
@@ -190,8 +179,7 @@ export const useFileUploadStyles = (state: FileUploadState): FileUploadState => 
     "use no memo";
 
     const styles = useStyles();
-    const gridStyles = useGridStyles();
-    const flexStyles = useFlexStyles();
+    const layoutStyles = useLayoutStyles();
     const interactionStyles = useInteractionStyles();
 
     const appearanceMap: Record<NonNullable<FileUploadState["appearance"]>, string> = {
@@ -203,12 +191,9 @@ export const useFileUploadStyles = (state: FileUploadState): FileUploadState => 
         "outline-dashed-alternative": styles.outlineDashedAlternative,
     };
 
-    debugger;
     const hasDescription = !!state.description;
-    const useGridLayout = state.contentLayout === "horizontal" && hasDescription;
-    const useLargeIcon = hasDescription || state.contentLayout === "vertical";
-
-    const layoutStyles = useGridLayout ? gridStyles : flexStyles;
+    const useGridLayout = state.resolvedLayout === "horizontal" && hasDescription;
+    const useLargeIcon = state.resolvedLayout === "vertical" || hasDescription;
 
     let interaction: keyof ReturnType<typeof useInteractionStyles> | undefined;
     if (state.showDropIndicator) {
@@ -222,58 +207,97 @@ export const useFileUploadStyles = (state: FileUploadState): FileUploadState => 
     }
 
     // Root slot styling
-    state.root.className = mergeClasses(
+    const rootClasses = [
         fileUploadClassNames.root,
         styles.root,
         appearanceMap[state.appearance],
-        styles[state.contentLayout],
-        layoutStyles.root,
-        layoutStyles[state.contentLayout],
         interaction && interactionStyles[interaction],
-        state.openFileSelectionOnGlobalClick && styles.clickable
-    );
+        state.openFileSelectionOnGlobalClick && styles.clickable,
+    ];
+
+    // Apply layout styles to root
+    if (useGridLayout) {
+        rootClasses.push(layoutStyles.gridLayout);
+    } else if (state.resolvedLayout === "horizontal") {
+        rootClasses.push(layoutStyles.horizontalLayout);
+    } else {
+        rootClasses.push(layoutStyles.verticalLayout);
+    }
+
+    state.root.className = mergeClasses(...rootClasses);
 
     // Icon slot styling
     if (state.icon) {
-        state.icon.className = mergeClasses(
-            fileUploadClassNames.icon,
-            styles.icon,
-            useGridLayout && gridStyles.icon,
-            useLargeIcon && styles.iconLarge
-        );
+        const iconClasses = [fileUploadClassNames.icon, styles.icon, useLargeIcon && styles.iconLarge];
+
+        // Apply layout-specific icon styles
+        if (useGridLayout) {
+            iconClasses.push(layoutStyles.gridIcon);
+        } else if (state.resolvedLayout === "horizontal") {
+            iconClasses.push(layoutStyles.horizontalIcon);
+        } else {
+            iconClasses.push(layoutStyles.verticalIcon);
+        }
+
+        state.icon.className = mergeClasses(...iconClasses);
     }
 
     // Header slot styling
     if (state.header) {
-        state.header.className = mergeClasses(
-            fileUploadClassNames.header,
-            useGridLayout && gridStyles.header
-        );
+        const headerClasses = [fileUploadClassNames.header];
+
+        // Apply layout-specific header styles
+        if (useGridLayout) {
+            headerClasses.push(layoutStyles.gridHeader);
+        } else if (state.resolvedLayout === "horizontal") {
+            headerClasses.push(layoutStyles.horizontalHeader);
+        } else {
+            headerClasses.push(layoutStyles.verticalHeader);
+        }
+
+        state.header.className = mergeClasses(...headerClasses);
     }
 
     // Description slot styling
     if (state.description) {
-        state.description.className = mergeClasses(
-            fileUploadClassNames.description,
-            useGridLayout && gridStyles.description
-        );
+        const descriptionClasses = [fileUploadClassNames.description];
+
+        // Apply layout-specific description styles
+        if (useGridLayout) {
+            descriptionClasses.push(layoutStyles.gridDescription);
+        } else if (state.resolvedLayout === "vertical") {
+            descriptionClasses.push(layoutStyles.verticalDescription);
+        }
+
+        state.description.className = mergeClasses(...descriptionClasses);
     }
 
     // Select files button slot styling
     if (state.selectFilesButton) {
-        state.selectFilesButton.className = mergeClasses(
-            fileUploadClassNames.selectFilesButton,
-            useGridLayout && gridStyles.selectFilesButton
-        );
+        const buttonClasses = [fileUploadClassNames.selectFilesButton];
+
+        // Apply layout-specific button styles
+        if (useGridLayout) {
+            buttonClasses.push(layoutStyles.gridButton);
+        } else if (state.resolvedLayout === "horizontal") {
+            buttonClasses.push(layoutStyles.horizontalButton);
+        } else {
+            buttonClasses.push(layoutStyles.verticalButton);
+        }
+
+        state.selectFilesButton.className = mergeClasses(...buttonClasses);
     }
 
     // Input slot styling
     if (state.input) {
-        state.input.className = mergeClasses(
-            fileUploadClassNames.input,
-            styles.input,
-            useGridLayout && gridStyles.input
-        );
+        const inputClasses = [fileUploadClassNames.input, styles.input];
+
+        // Apply layout-specific input styles (only grid has specific input styles)
+        if (useGridLayout) {
+            inputClasses.push(layoutStyles.gridInput);
+        }
+
+        state.input.className = mergeClasses(...inputClasses);
     }
 
     return state;

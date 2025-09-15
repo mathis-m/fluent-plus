@@ -43,9 +43,19 @@ export type FileUploadSlots = {
 export type FileUploadProps = ComponentProps<FileUploadSlots> & {
     /**
      * Content layout of the FileUpload component
-     * @default 'horizontal'
+     * @default best-fit
      */
-    contentLayout?: "horizontal" | "vertical";
+    contentLayout?: "horizontal" | "vertical" | "best-fit";
+
+    /**
+     * Provide best-fit threshold in pixels.
+     * This will be used when contentLayout is set to best-fit.
+     * Best fit uses ResizeObserver to determine the best layout based on the width of the component.
+     * Note: Changes to bestFitThreshold do not dynamically refresh the layout; 
+     * the new threshold only takes effect when the component is resized.
+          * @default 400
+     */
+    bestFitThreshold?: number;
 
     /**
      * Accepted mime type to file extension mapping to be used for the file picker dialog.
@@ -65,7 +75,7 @@ export type FileUploadProps = ComponentProps<FileUploadSlots> & {
     /**
      * Indicates that the file upload can be used for the files that are currently dragged.
      * This is useful if you want to highlight the dropzone while the user drags.
-     * @default 'always'
+     * @default always
      */
     dropIndicationType?: "none" | "some-accepted" | "all-accepted" | "always";
 
@@ -102,7 +112,7 @@ export type FileUploadProps = ComponentProps<FileUploadSlots> & {
      * `filled-alternative`
      * Similar to filled but with a slightly darker background color for enhanced contrast.
      *
-     * @default 'outline-dashed'
+     * @default outline-dashed
      */
     appearance?:
         | "filled"
@@ -141,8 +151,17 @@ export type FileUploadUtils = {
  * State for the FileUpload component
  */
 export type FileUploadState = ComponentState<FileUploadSlots> &
-    Required<Pick<FileUploadProps, "contentLayout" | "openFileSelectionOnGlobalClick" | "appearance">> & {
+    Required<
+        Pick<
+            FileUploadProps,
+            "contentLayout" | "openFileSelectionOnGlobalClick" | "appearance" | "bestFitThreshold"
+        >
+    > & {
         showDropIndicator: boolean;
         isDragReject: boolean;
         isDragAccept: boolean;
+        /**
+         * The resolved layout based on static contentLayout prop or dynamic best-fit logic
+         */
+        resolvedLayout: "horizontal" | "vertical";
     };

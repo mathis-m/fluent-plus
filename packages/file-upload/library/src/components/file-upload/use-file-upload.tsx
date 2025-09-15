@@ -23,7 +23,7 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
         selectFilesButton,
         input,
         icon,
-        contentLayout = "horizontal",
+        contentLayout = "best-fit",
         validators,
         accept,
         onFilesAdded,
@@ -31,6 +31,7 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
         fileUploadRef,
         openFileSelectionOnGlobalClick = false,
         appearance = "outline-dashed",
+        bestFitThreshold = 400,
     } = props;
 
     const combinedValidators = useEventCallback((file: File) => {
@@ -72,6 +73,11 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
         onDrop,
     });
 
+    const rootProps = getRootProps();
+    const [internalRefElement, setInternalRefElement] = React.useState<HTMLDivElement | null>(null);
+    const internalRef = React.useRef<HTMLDivElement>(null);
+    const mergedRefs = useMergedRefs(ref, rootProps.ref, setInternalRefElement, internalRef);
+
     React.useImperativeHandle(
         fileUploadRef,
         () => ({
@@ -81,6 +87,40 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
     );
 
     const [showDropIndicator, setShowDropIndicator] = React.useState(false);
+    const [bestFitLayout, setBestFitLayout] = React.useState<"horizontal" | "vertical">("horizontal");
+
+    const onResize = useEventCallback((entries: ResizeObserverEntry[]) => {
+        const entry = entries[0];
+        if (!entry) return;
+
+        const { width } = entry.contentRect;
+        const newLayout = width >= bestFitThreshold ? "horizontal" : "vertical";
+        setBestFitLayout(newLayout);
+    });
+
+    const [resizeObserver] = React.useState(() => new ResizeObserver(onResize));
+
+    React.useEffect(() => {
+        if (contentLayout !== "best-fit") {
+            return;
+        }
+
+        if (internalRefElement) {
+            resizeObserver.observe(internalRefElement);
+        }
+
+        return () => {
+            if (internalRefElement) {
+                resizeObserver.unobserve(internalRefElement);
+            }
+        };
+    }, [contentLayout, internalRefElement, resizeObserver]);
+
+    React.useEffect(() => {
+        return () => {
+            resizeObserver.disconnect();
+        };
+    }, [resizeObserver]);
 
     const onDragStartHandler = useEventCallback(async (event: DragEvent) => {
         if (dropIndicationType === "none") return;
@@ -129,9 +169,6 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
         [open]
     );
 
-    const rootProps = getRootProps();
-    const mergedRefs = useMergedRefs(ref, rootProps.ref);
-
     const acceptedTypes = useAcceptedTypes(accept);
     const inputAcceptProp = React.useMemo(() => {
         return acceptedTypes.length > 0 ? acceptedTypes.join(",") : undefined;
@@ -150,6 +187,9 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
             getIntrinsicElementProps("div", {
                 ref: mergedRefs,
                 ...props,
+                style: {
+                    ...props.style,
+                },
             }),
             {
                 defaultProps: {
@@ -188,6 +228,8 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
         isDragReject,
         isDragAccept,
         openFileSelectionOnGlobalClick,
-        appearance
+        appearance,
+        bestFitThreshold,
+        resolvedLayout: contentLayout === "best-fit" ? bestFitLayout : contentLayout,
     };
 };
