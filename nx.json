@@ -144,7 +144,7 @@
         },
         "projects": ["packages/*", "packages/*/library"],
         "changelog": {
-            "workspaceChangelog": true
+            "projectChangelogs": true
         },
         "projectsRelationship": "independent"
     }
