@@ -4,12 +4,6 @@
     "nx": {
         "name": "public-docsite",
         "targets": {
-            "build-storybook": {
-                "dependsOn": [{
-                    "target": "build",
-                    "dependencies": true
-                }]
-            },
             "test": {
                 "executor": "@nx/jest:jest",
                 "outputs": [

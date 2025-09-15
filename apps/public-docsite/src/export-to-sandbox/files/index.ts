@@ -1,4 +1,4 @@
-import { FileDefinition, FileDefinitionFactory } from "./file-definiton-factory";
+import { FileDefinitionFactory } from "./file-definiton-factory";
 import { indexHtml } from "./index_html";
 import { packageJson } from "./package_json";
 import { tsconfigJson } from "./tsconfig_json";

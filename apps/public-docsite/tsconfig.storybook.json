@@ -25,14 +25,6 @@
         "src/**/*.stories.mdx",
         ".storybook/*.js",
         ".storybook/*.ts",
-        "../../packages/**/*.stories.ts",
-        "../../packages/**/*.stories.js",
-        "../../packages/**/*.stories.jsx",
-        "../../packages/**/*.stories.tsx",
-        "../../packages/**/*.stories.mdx",
-        "../../packages/**/*.tsx",
-        "../../packages/**/*.ts",
-        "../../packages/**/*.mdx"
     ],
     "references": [
         {

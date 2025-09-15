@@ -62,6 +62,17 @@ const config: StorybookConfig = {
     viteFinal: async (config, options) => {
         const test = mergeConfig(config, {
             plugins: [babelStorybookPlugin(), react(), nxViteTsPaths()],
+            resolve: {
+                conditions: [
+                    "@fluent-plus/fluent-plus-repo",
+                    "module",
+                    "browser",
+                    "development",
+                    "import",
+                    "require",
+                    "default",
+                ],
+            },
         });
         return test;
     },

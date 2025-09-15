@@ -54,6 +54,7 @@ export async function reactLibGenerator(tree: Tree, options: ReactLibGeneratorSc
         publishable: true,
         skipFormat: true,
         skipPackageJson: true,
+        tags: "type:library,scope:fluent-plus,role:component",
     });
 
     await libraryGenerator(tree, {
@@ -127,7 +128,6 @@ export async function reactLibGenerator(tree: Tree, options: ReactLibGeneratorSc
 
     const exports = (packageJson.exports as any) ?? {};
     exports["."].types = packageJson.types;
-    delete exports["."]["@fluent-plus/fluent-plus-repo"];
 
     writeJson(tree, packageJsonPath, packageJson);
 

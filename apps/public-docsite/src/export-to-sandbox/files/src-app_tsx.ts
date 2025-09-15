@@ -1,4 +1,4 @@
-import { FileDefinition, FileDefinitionFactory } from "./file-definiton-factory";
+import { FileDefinitionFactory } from "./file-definiton-factory";
 
 export const srcAppTsx: FileDefinitionFactory = (context) => ({
     fileName: "src/app.tsx",
