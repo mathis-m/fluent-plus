@@ -41,7 +41,8 @@ const preview: Preview = {
                 transform: (source: string, storyContext: StoryContextForEnhancers) => {
                     let sourceCode = undefined;
                     if (typeof storyContext.parameters.fullSource === "string") {
-                        sourceCode = storyContext.parameters.fullSource.replace("import dedent from \"dedent\";\n", "").trim();
+                        sourceCode = storyContext.parameters.fullSource.replace("import dedent from \"dedent\";\n", "");
+                        sourceCode = storyContext.parameters.fullSource.replace("import dedent from \"dedent\";\r\n", "");
                     }
                     return sourceCode;
                 },
