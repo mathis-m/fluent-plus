@@ -42,6 +42,12 @@ export type FileUploadSlots = {
  */
 export type FileUploadProps = ComponentProps<FileUploadSlots> & {
     /**
+     * Mark the component as disabled
+     * @default false
+     */
+    disabled?: boolean;
+
+    /**
      * Content layout of the FileUpload component
      * @default best-fit
      */
@@ -51,9 +57,9 @@ export type FileUploadProps = ComponentProps<FileUploadSlots> & {
      * Provide best-fit threshold in pixels.
      * This will be used when contentLayout is set to best-fit.
      * Best fit uses ResizeObserver to determine the best layout based on the width of the component.
-     * Note: Changes to bestFitThreshold do not dynamically refresh the layout; 
+     * Note: Changes to bestFitThreshold do not dynamically refresh the layout;
      * the new threshold only takes effect when the component is resized.
-          * @default 400
+     * @default 400
      */
     bestFitThreshold?: number;
 
@@ -154,7 +160,11 @@ export type FileUploadState = ComponentState<FileUploadSlots> &
     Required<
         Pick<
             FileUploadProps,
-            "contentLayout" | "openFileSelectionOnGlobalClick" | "appearance" | "bestFitThreshold"
+            | "contentLayout"
+            | "openFileSelectionOnGlobalClick"
+            | "appearance"
+            | "bestFitThreshold"
+            | "disabled"
         >
     > & {
         showDropIndicator: boolean;

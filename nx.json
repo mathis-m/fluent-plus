@@ -142,10 +142,16 @@
         "version": {
             "preVersionCommand": "npx nx run-many -t build"
         },
-        "projects": ["packages/*", "packages/*/library"],
         "changelog": {
-            "projectChangelogs": true
+            "projectChangelogs": true,
+            "createRelease": "github"
         },
+        "git": {
+            "commit": true,
+            "tag": true,
+            "push": true
+        },
+        "projects": ["@fluent-plus/react-components", "packages/*/library"],
         "projectsRelationship": "independent"
     }
 }

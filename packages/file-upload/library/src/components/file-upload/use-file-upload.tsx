@@ -32,6 +32,7 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
         openFileSelectionOnGlobalClick = false,
         appearance = "outline-dashed",
         bestFitThreshold = 400,
+        disabled = false,
     } = props;
 
     const combinedValidators = useEventCallback((file: File) => {
@@ -71,6 +72,7 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
         noClick: !openFileSelectionOnGlobalClick,
         validator: combinedValidators,
         onDrop,
+        disabled,
     });
 
     const rootProps = getRootProps();
@@ -211,6 +213,7 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
                 children: "Select files",
                 appearance: "secondary",
                 onClick: onSelectFilesButtonClick,
+                disabled
             },
             elementType: Button,
         }),
@@ -231,5 +234,6 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
         appearance,
         bestFitThreshold,
         resolvedLayout: contentLayout === "best-fit" ? bestFitLayout : contentLayout,
+        disabled
     };
 };

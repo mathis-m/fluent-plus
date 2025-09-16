@@ -24,6 +24,19 @@ const useStyles = makeStyles({
         ...shorthands.borderStyle("solid"),
         ...createFocusOutlineStyle(),
     },
+    disabled: {
+        cursor: "not-allowed",
+        userSelect: "none",
+        color: tokens.colorNeutralForegroundDisabled,
+        backgroundColor: tokens.colorNeutralBackgroundDisabled,
+        ...shorthands.borderColor(tokens.colorNeutralStrokeDisabled),
+    },
+    noBackgroundColor: {
+        backgroundColor: tokens.colorTransparentBackground,
+    },
+    noBorderColor: {
+        ...shorthands.borderColor(tokens.colorTransparentStrokeDisabled),
+    },
     clickable: {
         cursor: "pointer",
     },
@@ -191,6 +204,15 @@ export const useFileUploadStyles = (state: FileUploadState): FileUploadState => 
         "outline-dashed-alternative": styles.outlineDashedAlternative,
     };
 
+    const disabledAppearanceMap: Record<NonNullable<FileUploadState["appearance"]>, string | undefined> = {
+        filled: styles.noBorderColor,
+        "filled-alternative": styles.noBorderColor,
+        outline: styles.noBackgroundColor,
+        "outline-alternative": styles.noBackgroundColor,
+        "outline-dashed": styles.noBackgroundColor,
+        "outline-dashed-alternative": styles.noBackgroundColor,
+    };
+
     const hasDescription = !!state.description;
     const useGridLayout = state.resolvedLayout === "horizontal" && hasDescription;
     const useLargeIcon = state.resolvedLayout === "vertical" || hasDescription;
@@ -213,6 +235,8 @@ export const useFileUploadStyles = (state: FileUploadState): FileUploadState => 
         appearanceMap[state.appearance],
         interaction && interactionStyles[interaction],
         state.openFileSelectionOnGlobalClick && styles.clickable,
+        state.disabled && styles.disabled,
+        state.disabled && disabledAppearanceMap[state.appearance],
     ];
 
     // Apply layout styles to root
@@ -222,6 +246,9 @@ export const useFileUploadStyles = (state: FileUploadState): FileUploadState => 
         rootClasses.push(layoutStyles.horizontalLayout);
     } else {
         rootClasses.push(layoutStyles.verticalLayout);
+    }
+
+    if (state.disabled) {
     }
 
     state.root.className = mergeClasses(...rootClasses);

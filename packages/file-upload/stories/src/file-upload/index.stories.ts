@@ -6,6 +6,7 @@ import { FileTypes } from "./file-upload-file-types.stories";
 import { DropIndication } from "./file-upload-drop-indication.stories";
 import { SelectFilesButton } from "./file-upload-select-files-button.stories";
 import { Appearance } from "./file-upload-appearance.stories";
+import { Disabled } from "./file-upload-disabled.stories";
 
 const description = dedent`
     The FileUpload component streamlines file selection and uploading with an intuitive drag-and-drop interface and customizable button options.  
@@ -26,4 +27,4 @@ export default {
 
 // Exporting stories for the File Upload component in display order
 // organize-imports-ignore
-export { Default, Layout, FileTypes, DropIndication, SelectFilesButton, Appearance };
+export { Default, Layout, FileTypes, DropIndication, SelectFilesButton, Appearance, Disabled };
