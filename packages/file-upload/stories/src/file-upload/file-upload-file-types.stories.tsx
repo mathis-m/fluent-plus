@@ -1,8 +1,7 @@
-import { FileUpload, RejectedFile, useFileTypeValidator } from "@fluent-plus/file-upload";
+import { FileUpload, FileUploadContent, RejectedFile, useFileTypeValidator } from "@fluent-plus/file-upload";
 import { Caption1, makeStyles, Text, tokens } from "@fluentui/react-components";
 import { AttachRegular } from "@fluentui/react-icons";
 import dedent from "dedent";
-import { use } from "motion/react-client";
 import { useState } from "react";
 
 const useStyles = makeStyles({
@@ -30,20 +29,23 @@ export const FileTypes = () => {
     return (
         <div className={styles.root}>
             <FileUpload
-                icon={<AttachRegular />}
-                header={
-                    <Text as="h5" style={{ margin: 0 }} weight="semibold">
-                        Upload pictures of your pet
-                    </Text>
-                }
-                description={<Caption1>Drag and drop files here, or click to select files</Caption1>}
                 onFilesAdded={(files, rejectedFiles) => {
                     setAcceptedFiles(files);
                     setFileRejections(rejectedFiles);
                 }}
                 validators={validators}
                 accept={acceptedFileTypes}
-            />
+            >
+                <FileUploadContent
+                    image={<AttachRegular fontSize={44} />}
+                    header={
+                        <Text as="h5" style={{ margin: 0 }} weight="semibold">
+                            Upload pictures of your pet
+                        </Text>
+                    }
+                    description={<Caption1>Drag and drop files here, or click to select files</Caption1>}
+                />
+            </FileUpload>
 
             <div>
                 {acceptedFiles.length > 0 && (

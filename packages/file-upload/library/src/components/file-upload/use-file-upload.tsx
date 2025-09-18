@@ -18,11 +18,7 @@ import { RejectedFile, type FileUploadProps, type FileUploadState } from "./file
  */
 export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElement>): FileUploadState => {
     const {
-        header,
-        description,
-        selectFilesButton,
         input,
-        icon,
         contentLayout = "best-fit",
         validators,
         accept,
@@ -33,6 +29,8 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
         appearance = "outline-dashed",
         bestFitThreshold = 400,
         disabled = false,
+        children,
+        ...restProps
     } = props;
 
     const combinedValidators = useEventCallback((file: File) => {
@@ -179,18 +177,14 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
     return {
         components: {
             root: "div",
-            icon: "span",
-            header: "div",
-            description: "div",
-            selectFilesButton: Button,
             input: "input",
         },
         root: slot.always(
             getIntrinsicElementProps("div", {
                 ref: mergedRefs,
-                ...props,
+                ...restProps,
                 style: {
-                    ...props.style,
+                    ...restProps.style,
                 },
             }),
             {
@@ -201,22 +195,6 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
                 elementType: "div",
             }
         ),
-        icon: slot.optional(icon, { elementType: "span" }),
-        header: slot.optional(header, {
-            renderByDefault: true,
-            elementType: "div",
-        }),
-        description: slot.optional(description, { elementType: "div" }),
-        selectFilesButton: slot.optional(selectFilesButton, {
-            renderByDefault: true,
-            defaultProps: {
-                children: "Select files",
-                appearance: "secondary",
-                onClick: onSelectFilesButtonClick,
-                disabled
-            },
-            elementType: Button,
-        }),
         input: slot.optional(input, {
             renderByDefault: true,
             defaultProps: {
@@ -234,6 +212,8 @@ export const useFileUpload = (props: FileUploadProps, ref: React.Ref<HTMLDivElem
         appearance,
         bestFitThreshold,
         resolvedLayout: contentLayout === "best-fit" ? bestFitLayout : contentLayout,
-        disabled
+        disabled,
+        children,
+        onSelectFilesButtonClick,
     };
 };

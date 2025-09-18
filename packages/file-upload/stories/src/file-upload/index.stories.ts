@@ -1,6 +1,8 @@
 import dedent from "dedent";
-import { FileUpload } from "@fluent-plus/file-upload";
+import { FileCard, FileUpload, FileUploadContent } from "@fluent-plus/file-upload";
 import { Default } from "./file-upload-default.stories";
+import { SingleFileUpload } from "./file-upload-single-file.stories";
+import { MultiFileUpload } from "./file-upload-multi-file.stories";
 import { Layout } from "./file-upload-layout.stories";
 import { FileTypes } from "./file-upload-file-types.stories";
 import { DropIndication } from "./file-upload-drop-indication.stories";
@@ -14,8 +16,9 @@ const description = dedent`
 `;
 
 export default {
-    title: "Components/File Upload",
+    title: "Components/File Upload/FileUpload",
     component: FileUpload,
+    subcomponents: { FileUploadContent, FileCard },
     parameters: {
         docs: {
             description: {
@@ -27,4 +30,4 @@ export default {
 
 // Exporting stories for the File Upload component in display order
 // organize-imports-ignore
-export { Default, Layout, FileTypes, DropIndication, SelectFilesButton, Appearance, Disabled };
+export { Default, SingleFileUpload, MultiFileUpload, Layout, FileTypes, DropIndication, SelectFilesButton, Appearance, Disabled };

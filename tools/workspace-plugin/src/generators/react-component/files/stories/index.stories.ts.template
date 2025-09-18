@@ -8,7 +8,7 @@ const description = dedent`
 `;
 
 export default {
-    title: "<%= projectTitle %>/<%= title %>",
+    title: "Components/<%= projectTitle %>/<%= title %>",
     component: <%= pascalCaseName %>,
     parameters: {
         docs: {

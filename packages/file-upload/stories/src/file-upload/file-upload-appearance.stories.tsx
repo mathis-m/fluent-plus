@@ -1,4 +1,4 @@
-import { FileUpload } from "@fluent-plus/file-upload";
+import { FileUpload, FileUploadContent } from "@fluent-plus/file-upload";
 import { Caption1, FluentProvider, makeStyles, Text, webDarkTheme } from "@fluentui/react-components";
 import { AttachRegular } from "@fluentui/react-icons";
 import dedent from "dedent";
@@ -34,18 +34,19 @@ export const Appearance = () => {
                 {appearances.map(({ key, label }) => (
                     <div key={key} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                         <Text weight="semibold">{label}</Text>
-                        <FileUpload
-                            appearance={key}
-                            icon={<AttachRegular />}
-                            header={
-                                <Text as="h5" style={{ margin: 0 }} weight="semibold">
-                                    Upload your files
-                                </Text>
-                            }
-                            description={
-                                <Caption1>Drag and drop files here, or click to select files</Caption1>
-                            }
-                        />
+                        <FileUpload appearance={key}>
+                            <FileUploadContent
+                                image={<AttachRegular fontSize={44} />}
+                                header={
+                                    <Text as="h5" style={{ margin: 0 }} weight="semibold">
+                                        Upload your files
+                                    </Text>
+                                }
+                                description={
+                                    <Caption1>Drag and drop files here, or click to select files</Caption1>
+                                }
+                            />
+                        </FileUpload>
                     </div>
                 ))}
             </div>
@@ -54,18 +55,19 @@ export const Appearance = () => {
                 {appearances.map(({ key, label }) => (
                     <div key={key} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                         <Text weight="semibold">{label}</Text>
-                        <FileUpload
-                            appearance={key}
-                            icon={<AttachRegular />}
-                            header={
-                                <Text as="h5" style={{ margin: 0 }} weight="semibold">
-                                    Upload your files
-                                </Text>
-                            }
-                            description={
-                                <Caption1>Drag and drop files here, or click to select files</Caption1>
-                            }
-                        />
+                        <FileUpload appearance={key}>
+                            <FileUploadContent
+                                image={<AttachRegular fontSize={44} />}
+                                header={
+                                    <Text as="h5" style={{ margin: 0 }} weight="semibold">
+                                        Upload your files
+                                    </Text>
+                                }
+                                description={
+                                    <Caption1>Drag and drop files here, or click to select files</Caption1>
+                                }
+                            />
+                        </FileUpload>
                     </div>
                 ))}
             </FluentProvider>

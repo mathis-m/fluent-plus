@@ -2,21 +2,21 @@
 /** @jsxImportSource @fluentui/react-jsx-runtime */
 
 import { assertSlots } from "@fluentui/react-utilities";
+import { FileUploadContextProvider, FileUploadContextValue } from "../../contexts/file-upload-context";
 import type { FileUploadSlots, FileUploadState } from "./file-upload.types";
 
 /**
  * This function composes the final JSX of FileUpload
  */
-export const renderFileUpload = (state: FileUploadState) => {
+export const renderFileUpload = (state: FileUploadState, contextValue: FileUploadContextValue) => {
     assertSlots<FileUploadSlots>(state);
 
     return (
-        <state.root>
-            {state.icon && <state.icon />}
-            {state.header && <state.header />}
-            {state.description && <state.description />}
-            {state.selectFilesButton && !state.openFileSelectionOnGlobalClick && <state.selectFilesButton />}
-            {state.input && <state.input />}
-        </state.root>
+        <FileUploadContextProvider value={contextValue}>
+            <state.root>
+                {state.children}
+                {state.input && <state.input />}
+            </state.root>
+        </FileUploadContextProvider>
     );
 };

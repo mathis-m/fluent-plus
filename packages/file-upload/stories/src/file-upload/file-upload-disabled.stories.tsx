@@ -1,4 +1,4 @@
-import { FileUpload } from "@fluent-plus/file-upload";
+import { FileUpload, FileUploadContent } from "@fluent-plus/file-upload";
 import { Caption1, FluentProvider, makeStyles, Text, webDarkTheme } from "@fluentui/react-components";
 import { AttachRegular } from "@fluentui/react-icons";
 import dedent from "dedent";
@@ -37,20 +37,23 @@ export const Disabled = () => {
                         <FileUpload
                             disabled
                             appearance={key}
-                            icon={<AttachRegular />}
-                            header={
-                                <Text as="h5" style={{ margin: 0 }} weight="semibold">
-                                    Upload your files
-                                </Text>
-                            }
-                            description={
-                                <Caption1>Drag and drop files here, or click to select files</Caption1>
-                            }
                             onFilesAdded={(acceptedFiles, rejectedFiles) => {
                                 console.log("Accepted files:", acceptedFiles);
                                 console.log("Rejected files:", rejectedFiles);
                             }}
-                        />
+                        >
+                            <FileUploadContent
+                                image={<AttachRegular fontSize={44} />}
+                                header={
+                                    <Text as="h5" style={{ margin: 0 }} weight="semibold">
+                                        Upload your files
+                                    </Text>
+                                }
+                                description={
+                                    <Caption1>Drag and drop files here, or click to select files</Caption1>
+                                }
+                            />
+                        </FileUpload>
                     </div>
                 ))}
             </div>
@@ -62,20 +65,23 @@ export const Disabled = () => {
                         <FileUpload
                             disabled
                             appearance={key}
-                            icon={<AttachRegular />}
-                            header={
-                                <Text as="h5" style={{ margin: 0 }} weight="semibold">
-                                    Upload your files
-                                </Text>
-                            }
-                            description={
-                                <Caption1>Drag and drop files here, or click to select files</Caption1>
-                            }
                             onFilesAdded={(acceptedFiles, rejectedFiles) => {
                                 console.log("Accepted files:", acceptedFiles);
                                 console.log("Rejected files:", rejectedFiles);
                             }}
-                        />
+                        >
+                            <FileUploadContent
+                                image={<AttachRegular fontSize={44} />}
+                                header={
+                                    <Text as="h5" style={{ margin: 0 }} weight="semibold">
+                                        Upload your files
+                                    </Text>
+                                }
+                                description={
+                                    <Caption1>Drag and drop files here, or click to select files</Caption1>
+                                }
+                            />
+                        </FileUpload>
                     </div>
                 ))}
             </FluentProvider>

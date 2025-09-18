@@ -1,18 +1,18 @@
-import { FileUpload } from "@fluent-plus/file-upload";
-import { 
-    Caption1, 
-    makeStyles, 
-    Switch, 
-    Text, 
-    tokens, 
-    Slider, 
+import { FileUpload, FileUploadContent } from "@fluent-plus/file-upload";
+import {
+    Caption1,
     Label,
+    makeStyles,
     Radio,
-    RadioGroup
+    RadioGroup,
+    Slider,
+    Switch,
+    Text,
+    tokens,
 } from "@fluentui/react-components";
 import { AttachRegular } from "@fluentui/react-icons";
 import dedent from "dedent";
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 
 const useStyles = makeStyles({
     root: {
@@ -76,36 +76,31 @@ export const Layout = () => {
         setLayout(data.value as "horizontal" | "vertical" | "best-fit");
     }, []);
 
-    const handleThresholdChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, data: { value: number }) => {
-        setBestFitThreshold(data.value);
-    }, []);
+    const handleThresholdChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>, data: { value: number }) => {
+            setBestFitThreshold(data.value);
+        },
+        []
+    );
 
     return (
         <div className={styles.root}>
             <div className={styles.controlsContainer}>
-                <Label size="medium" weight="semibold">Layout Controls</Label>
-                
-                <RadioGroup 
-                    value={layout} 
-                    onChange={handleLayoutChange}
-                    layout="horizontal"
-                >
+                <Label size="medium" weight="semibold">
+                    Layout Controls
+                </Label>
+
+                <RadioGroup value={layout} onChange={handleLayoutChange} layout="horizontal">
                     <Radio value="horizontal" label="Horizontal" />
                     <Radio value="vertical" label="Vertical" />
                     <Radio value="best-fit" label="Best Fit (Responsive)" />
                 </RadioGroup>
 
-                <Switch 
-                    checked={!!description} 
-                    onChange={toggleDescription} 
-                    label="Show description" 
-                />
+                <Switch checked={!!description} onChange={toggleDescription} label="Show description" />
 
                 {layout === "best-fit" && (
                     <div className={styles.sliderContainer}>
-                        <Label>
-                            Best Fit Threshold: {bestFitThreshold}px
-                        </Label>
+                        <Label>Best Fit Threshold: {bestFitThreshold}px</Label>
                         <Slider
                             min={200}
                             max={800}
@@ -116,7 +111,11 @@ export const Layout = () => {
                         <Caption1>
                             The component switches to vertical layout when width is below this threshold.
                             <br />
-                            <strong>Note:</strong> Changes to this value do not immediately refresh the layout. <strong>The new threshold only takes effect when the component is resized.</strong>
+                            <strong>Note:</strong> Changes to this value do not immediately refresh the
+                            layout.{" "}
+                            <strong>
+                                The new threshold only takes effect when the component is resized.
+                            </strong>
                         </Caption1>
                     </div>
                 )}
@@ -124,16 +123,18 @@ export const Layout = () => {
 
             <div className={styles.resizableContainer}>
                 <FileUpload
-                    icon={<AttachRegular />}
-                    header={
-                        <Text as="h5" style={{ margin: 0 }} weight="semibold">
-                            {description ? "Upload your files" : "Drag and drop your file to upload"}
-                        </Text>
-                    }
                     contentLayout={layout}
-                    bestFitThreshold={layout === "best-fit" ? bestFitThreshold : undefined}
-                    description={description ? <Caption1>{description}</Caption1> : undefined}
-                />
+                    bestFitThreshold={layout === "best-fit" ? bestFitThreshold : undefined}>
+                    <FileUploadContent
+                        image={<AttachRegular fontSize={44} />}
+                        header={
+                            <Text as="h5" style={{ margin: 0 }} weight="semibold">
+                                {description ? "Upload your files" : "Drag and drop your file to upload"}
+                            </Text>
+                        }
+                        description={description ? <Caption1>{description}</Caption1> : undefined}
+                    />
+                </FileUpload>
             </div>
         </div>
     );
@@ -145,8 +146,8 @@ Layout.parameters = {
             story: dedent`
                 The FileUpload component supports three layout options: horizontal, vertical, and best-fit (responsive).
                 
-                - **Horizontal**: Ideal for wider but more condensed spaces with icon and content side by side
-                - **Vertical**: Works well in taller, more spacious areas with icon above the content
+                - **Horizontal**: Ideal for wider but more condensed spaces with image, select button and content side by side
+                - **Vertical**: Works well in taller, more spacious areas with image above the content and select button below content
                 - **Best-fit**: Automatically switches between horizontal and vertical layouts based on the component's width
                 
                 The best-fit option uses ResizeObserver to dynamically determine the optimal layout. You can customize the threshold (default 400px) - when the component width is below this value, it switches to vertical layout.

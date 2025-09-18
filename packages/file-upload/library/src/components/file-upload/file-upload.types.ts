@@ -1,6 +1,6 @@
-import { Button } from "@fluentui/react-components";
 import type { ComponentProps, ComponentState, Slot } from "@fluentui/react-utilities";
 import { RefObject } from "react";
+import { FileUploadContextValue } from "../../contexts/file-upload-context";
 
 /**
  * Slots for the FileUpload component
@@ -10,26 +10,6 @@ export type FileUploadSlots = {
      * Root element of the component
      */
     root: Slot<"div">;
-
-    /**
-     * Element used to render the icon
-     */
-    icon?: Slot<"span">;
-
-    /**
-     * Element used to render the header title
-     */
-    header: Slot<"div">;
-
-    /**
-     * Element used to render the secondary descriptive text
-     */
-    description?: Slot<"div">;
-
-    /**
-     * Element used to render the drag and drop fallback button
-     */
-    selectFilesButton?: Slot<typeof Button>;
 
     /**
      * Hidden file input element
@@ -165,6 +145,7 @@ export type FileUploadState = ComponentState<FileUploadSlots> &
             | "appearance"
             | "bestFitThreshold"
             | "disabled"
+            | "children"
         >
     > & {
         showDropIndicator: boolean;
@@ -174,4 +155,6 @@ export type FileUploadState = ComponentState<FileUploadSlots> &
          * The resolved layout based on static contentLayout prop or dynamic best-fit logic
          */
         resolvedLayout: "horizontal" | "vertical";
+
+        onSelectFilesButtonClick: (ev: React.MouseEvent<HTMLButtonElement>) => void;
     };

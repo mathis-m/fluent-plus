@@ -4,6 +4,11 @@
     "nx": {
         "name": "public-docsite",
         "targets": {
+            "storybook": {
+                "configurations": {
+                    "docs-only": {}
+                }
+            },
             "test": {
                 "executor": "@nx/jest:jest",
                 "outputs": [
@@ -14,6 +19,8 @@
                 }
             }
         },
-        "implicitDependencies": ["tag:type:stories"]
+        "implicitDependencies": [
+            "tag:type:stories"
+        ]
     }
 }

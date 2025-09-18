@@ -1,4 +1,4 @@
-import { FileUpload, FileUploadProps, RejectedFile, useFileTypeValidator } from "@fluent-plus/file-upload";
+import { FileUpload, FileUploadContent, FileUploadProps, RejectedFile, useFileTypeValidator } from "@fluent-plus/file-upload";
 import { Caption1, makeStyles, Text, tokens } from "@fluentui/react-components";
 import { AttachRegular } from "@fluentui/react-icons";
 import dedent from "dedent";
@@ -36,13 +36,6 @@ const CustomFileUpload = (props: {
     return (
         <div className={styles.root}>
             <FileUpload
-                icon={<AttachRegular />}
-                header={
-                    <Text as="h5" style={{ margin: 0 }} weight="semibold">
-                        {props.header}
-                    </Text>
-                }
-                description={<Caption1>{props.description}</Caption1>}
                 onFilesAdded={(files, rejectedFiles) => {
                     setAcceptedFiles(files);
                     setFileRejections(rejectedFiles);
@@ -50,7 +43,17 @@ const CustomFileUpload = (props: {
                 validators={validators}
                 accept={props.acceptedFileTypes}
                 dropIndicationType={props.dropIndicationType}
-            />
+            >
+                <FileUploadContent
+                    image={<AttachRegular fontSize={44} />}
+                    header={
+                        <Text as="h5" style={{ margin: 0 }} weight="semibold">
+                            {props.header}
+                        </Text>
+                    }
+                    description={<Caption1>{props.description}</Caption1>}
+                />
+            </FileUpload>
 
             <div>
                 {acceptedFiles.length > 0 && (

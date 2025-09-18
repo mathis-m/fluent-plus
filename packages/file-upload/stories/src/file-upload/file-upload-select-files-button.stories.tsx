@@ -1,4 +1,4 @@
-import { FileUpload, FileUploadUtils } from "@fluent-plus/file-upload";
+import { FileUpload, FileUploadContent, FileUploadUtils } from "@fluent-plus/file-upload";
 import { Caption1, Link, makeStyles, Text, tokens } from "@fluentui/react-components";
 import { AttachRegular } from "@fluentui/react-icons";
 import dedent from "dedent";
@@ -19,54 +19,60 @@ export const SelectFilesButton = () => {
 
     return (
         <div className={styles.root}>
-            <FileUpload
-                icon={<AttachRegular />}
-                header={
-                    <Text as="h5" style={{ margin: 0 }} weight="semibold">
-                        Customize the props of the Fluent UI Button used to open the file dialog
-                    </Text>
-                }
-                description={
-                    <Caption1>Drag and drop files here, or click the button to select files</Caption1>
-                }
-                selectFilesButton={{
-                    children: "Select pictures of your pet",
-                }}
-            />
-            <FileUpload
-                fileUploadRef={fileUploadRef}
-                icon={<AttachRegular />}
-                header={
-                    <Text as="h5" style={{ margin: 0 }} weight="semibold">
-                        Integrate the file dialog button in your own UI
-                    </Text>
-                }
-                description={
-                    <Caption1>
-                        Drag and drop files here, or{" "}
-                        <Link onClick={() => fileUploadRef.current?.openFileSelectionDialog()}>
-                            click to select files
-                        </Link>
-                    </Caption1>
-                }
-                selectFilesButton={null}
-            />
+            <FileUpload>
+                <FileUploadContent
+                    image={<AttachRegular fontSize={44} />}
+                    header={
+                        <Text as="h5" style={{ margin: 0 }} weight="semibold">
+                            Customize the props of the Fluent UI Button used to open the file dialog
+                        </Text>
+                    }
+                    description={
+                        <Caption1>Drag and drop files here, or click the button to select files</Caption1>
+                    }
+                    selectFilesButton={{
+                        children: "Select pictures of your pet",
+                    }}
+                />
+            </FileUpload>
+            <FileUpload fileUploadRef={fileUploadRef}>
+                <FileUploadContent
+                    image={<AttachRegular fontSize={44} />}
+                    header={
+                        <Text as="h5" style={{ margin: 0 }} weight="semibold">
+                            Integrate the file dialog button in your own UI
+                        </Text>
+                    }
+                    description={
+                        <Caption1>
+                            Drag and drop files here, or{" "}
+                            <Link onClick={() => fileUploadRef.current?.openFileSelectionDialog()}>
+                                click to select files
+                            </Link>
+                        </Caption1>
+                    }
+                    selectFilesButton={null}
+                />
+            </FileUpload>
             
             <FileUpload
                 fileUploadRef={fileUploadRef}
-                icon={<AttachRegular />}
-                header={
-                    <Text as="h5" style={{ margin: 0 }} weight="semibold">
-                        Use the whole FileUpload component as button to open the file dialog
-                    </Text>
-                }
-                description={
-                    <Caption1>
-                        Drag and drop files here, or click anywhere in this box to select files
-                    </Caption1>
-                }
                 openFileSelectionOnGlobalClick
-            />
+            >
+                <FileUploadContent
+                    image={<AttachRegular fontSize={44} />}
+                    header={
+                        <Text as="h5" style={{ margin: 0 }} weight="semibold">
+                            Use the whole FileUpload component as button to open the file dialog
+                        </Text>
+                    }
+                    description={
+                        <Caption1>
+                            Drag and drop files here, or click anywhere in this box to select files
+                        </Caption1>
+                    }
+                />
+            </FileUpload>
         </div>
     );
 };

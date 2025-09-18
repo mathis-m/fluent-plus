@@ -54,7 +54,7 @@ const config: StorybookConfig = {
         },
     },
     docs: {
-        docsMode: true,
+        docsMode: process.env.DOCS_ONLY === "true" || false,
     },
     core: {
         builder: "@storybook/builder-vite", // 👈 The builder enabled here.
